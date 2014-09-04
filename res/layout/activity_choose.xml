@@ -9,5 +9,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Run the Recorder Intent" />
+    
+    <Button
+        android:id="@+id/button_recorder2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Run the custom recorder" />
 
 </LinearLayout>
