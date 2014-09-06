@@ -18,6 +18,7 @@ public class MoarLearningActivity extends Activity {
 		
 		LinearLayout mLayout = (LinearLayout)findViewById(R.id.moar_layout);
 		
-		//mLayout.addView(new CameraPreview(this, CameraChooser.GetFrontFacingCameraGingerbread()));
+		mLayout.addView(new CameraPreview(this, CameraChooser.GetFrontFacingCameraGingerbread()));
 	}
 }
+
