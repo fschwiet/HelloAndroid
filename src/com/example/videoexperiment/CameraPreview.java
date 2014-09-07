@@ -34,23 +34,31 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     private CamcorderProfile GetProfile() {
     	return CamcorderProfile.get(iCameraId, CamcorderProfile.QUALITY_LOW);
     }
-
-    public void surfaceCreated(SurfaceHolder holder) {
-        // The Surface has been created, now tell the camera where to draw the preview.
+    
+    private void StartCamera() {
+    	
+    	SurfaceHolder holder = getHolder();
+    	
+    	Log.d("StartCamera", holder.getSurfaceFrame().width() + ", " + holder.getSurfaceFrame().height());
+    	
         try {
-        	
-        	CamcorderProfile profile = GetProfile();
-        	
-        	Camera.Parameters parameters = mCamera.getParameters();
-        	parameters.setPreviewSize(profile.videoFrameWidth,profile.videoFrameHeight);
-        	mCamera.setParameters(parameters);
-        	
-        	mCamera.setPreviewDisplay(getHolder());
-            mCamera.startPreview();
-            //StartRecorder();
+        	mCamera.setPreviewDisplay(getHolder());	
         } catch (IOException e) {
         	throw new RuntimeException(e);
         }
+        
+        mCamera.startPreview();	
+    }
+
+    public void surfaceCreated(SurfaceHolder holder) {
+        CamcorderProfile profile = GetProfile();
+    	
+    	Camera.Parameters parameters = mCamera.getParameters();
+    	parameters.setPreviewSize(profile.videoFrameWidth,profile.videoFrameHeight);
+    	mCamera.setParameters(parameters);
+    	
+    	StartCamera();
+        //StartRecorder();  // This recording never works, need to wait until surfaceChanged
     }
 
     public void surfaceDestroyed(SurfaceHolder holder) {
@@ -74,15 +82,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     	mRecorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
     	mRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
     	
-    	///*
     	mRecorder.setProfile(GetProfile());
-    	//*/
-    	
-    	/*
-    	mRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
-    	mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-    	mRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.MPEG_4_SP);
-    	*/
 
     	mRecorder.setOutputFile(FileUtil.getOutputVideoFileUri(this.getContext()).getPath());
     	mRecorder.setPreviewDisplay(getHolder().getSurface());
@@ -124,27 +124,13 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     		//throw new RuntimeException("hmm");
     	}
 
-        // stop preview before making changes
-        try {
-        	StopRecorder();
-            mCamera.stopPreview();
-        } catch (Exception e){
-            throw new RuntimeException(e);
-        }
+    	StopRecorder();
+        mCamera.stopPreview();
 
         // set preview size and make any resize, rotate or
         // reformatting changes here
 
-        // start preview with new settings
-        try {
-            mCamera.setPreviewDisplay(getHolder());
-            mCamera.startPreview();
-            StartRecorder();
-
-        } catch (Exception e){
-            throw new RuntimeException(e);
-        }
-        
-        //mRecorder.start();
+    	StartCamera();
+        StartRecorder();
     }
 }
