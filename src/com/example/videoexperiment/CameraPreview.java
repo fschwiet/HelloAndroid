@@ -32,105 +32,101 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     }
     
     private CamcorderProfile GetProfile() {
-    	return CamcorderProfile.get(iCameraId, CamcorderProfile.QUALITY_LOW);
+        return CamcorderProfile.get(iCameraId, CamcorderProfile.QUALITY_LOW);
     }
     
     private void StartCamera() {
-    	
-    	SurfaceHolder holder = getHolder();
-    	
-    	Log.d("StartCamera", holder.getSurfaceFrame().width() + ", " + holder.getSurfaceFrame().height());
-    	
+        
+        SurfaceHolder holder = getHolder();
+        
+        Log.d("StartCamera", holder.getSurfaceFrame().width() + ", " + holder.getSurfaceFrame().height());
+        
         try {
-        	mCamera.setPreviewDisplay(getHolder());	
+            mCamera.setPreviewDisplay(getHolder());    
         } catch (IOException e) {
-        	throw new RuntimeException(e);
+            throw new RuntimeException(e);
         }
         
-        mCamera.startPreview();	
+        mCamera.startPreview();    
     }
 
     public void surfaceCreated(SurfaceHolder holder) {
         CamcorderProfile profile = GetProfile();
-    	
-    	Camera.Parameters parameters = mCamera.getParameters();
-    	parameters.setPreviewSize(profile.videoFrameWidth,profile.videoFrameHeight);
-    	mCamera.setParameters(parameters);
-    	
-    	StartCamera();
+        
+        Camera.Parameters parameters = mCamera.getParameters();
+        parameters.setPreviewSize(profile.videoFrameWidth,profile.videoFrameHeight);
+        mCamera.setParameters(parameters);
+        
+        StartCamera();
         //StartRecorder();  // This recording never works, need to wait until surfaceChanged
     }
 
     public void surfaceDestroyed(SurfaceHolder holder) {
-    	Log.d("CameraPreview", "Releasing camera");
-    	
-    	StopRecorder();
-    	mCamera.stopPreview();
-    	mCamera.release();
+        Log.d("CameraPreview", "Releasing camera");
+        
+        StopRecorder();
+        mCamera.stopPreview();
+        mCamera.release();
     }
     
     private void StartRecorder(){
-    	
-    	if (mRecorder != null) {
-    		throw new RuntimeException("StartRecorder called while already recording.");
-    	}
-    	
-    	mRecorder = new MediaRecorder();
-    	
-    	mCamera.unlock();
-    	mRecorder.setCamera(mCamera);
-    	mRecorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
-    	mRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
-    	
-    	mRecorder.setProfile(GetProfile());
+        
+        if (mRecorder != null) {
+            throw new RuntimeException("StartRecorder called while already recording.");
+        }
+        
+        mRecorder = new MediaRecorder();
+        
+        mCamera.unlock();
+        mRecorder.setCamera(mCamera);
+        mRecorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
+        mRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
+        
+        mRecorder.setProfile(GetProfile());
 
-    	mRecorder.setOutputFile(FileUtil.getOutputVideoFileUri(this.getContext()).getPath());
-    	mRecorder.setPreviewDisplay(getHolder().getSurface());
-    	
-    	try {
-			mRecorder.prepare();
-		} catch (Exception e) {
-			mCamera.lock();
-			throw new RuntimeException(e);
-		}
+        mRecorder.setOutputFile(FileUtil.getOutputVideoFileUri(this.getContext()).getPath());
+        mRecorder.setPreviewDisplay(getHolder().getSurface());
+        
+        try {
+            mRecorder.prepare();
+        } catch (Exception e) {
+            mCamera.lock();
+            throw new RuntimeException(e);
+        }
 
-    	mRecorder.start();
+        mRecorder.start();
     }
     
     private void StopRecorder() {
-    	
-    	if (mRecorder == null) {
-    		return;
-    	}
-    	
-    	mRecorder.stop();
-    	mRecorder.reset();
-    	mRecorder.release();
-    	mCamera.lock();
-    	mRecorder = null;
+        
+        if (mRecorder == null) {
+            return;
+        }
+        
+        mRecorder.stop();
+        mRecorder.reset();
+        mRecorder.release();
+        mCamera.lock();
+        mRecorder = null;
     }
 
     public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
-    	
+        
         // If your preview can change or rotate, take care of those events here.
         // Make sure to stop the preview before resizing or reformatting it.
 
         if (mHolder.getSurface() == null){
-          // preview surface does not exist
-          return;
+            // preview surface does not exist
+            return;
         }
-        
-    	if (true) {
-    		//throw new RuntimeException("hmm");
-    	}
 
-    	StopRecorder();
+        StopRecorder();
         mCamera.stopPreview();
 
         // set preview size and make any resize, rotate or
         // reformatting changes here
 
-    	StartCamera();
+        StartCamera();
         StartRecorder();
     }
 }
