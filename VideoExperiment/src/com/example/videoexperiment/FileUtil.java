@@ -19,23 +19,11 @@ import android.util.Log;
 public class FileUtil {
 	
 	public static Uri getOutputVideoFileUri(Context context) {
-		return Uri.fromFile(getOutputMediaFile(MEDIA_TYPE_VIDEO, context));
-	}
-	
-    public static final int MEDIA_TYPE_IMAGE = 1;
-    public static final int MEDIA_TYPE_VIDEO = 2;
 
-    /** Create a file Uri for saving an image or video */
-    private static Uri getOutputMediaFileUri(int type, Context context){
-          return Uri.fromFile(getOutputMediaFile(type, context));
-    }
-    
-    /** Create a File for saving an image or video */
-    private static File getOutputMediaFile(int type, Context context){
         // To be safe, you should check that the SDCard is mounted
         // using Environment.getExternalStorageState() before doing this.
 
-        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "Captures");
+        File mediaStorageDir = getMediaStorageDir();
         // This location works best if you want the created images to be shared
         // between applications and persist after your app has been uninstalled.
 
@@ -49,21 +37,16 @@ public class FileUtil {
                
         // Create a media file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        File mediaFile;
-        if (type == MEDIA_TYPE_IMAGE){
-            mediaFile = new File(mediaStorageDir.getPath() + File.separator +
-            "IMG_"+ timeStamp + ".jpg");
-        } else if(type == MEDIA_TYPE_VIDEO) {
-            mediaFile = new File(mediaStorageDir.getPath() + File.separator +
-            "VID_"+ timeStamp + ".mp4");
-        } else {
-            return null;
-        }
+        File mediaFile = new File(mediaStorageDir.getPath() + File.separator + "VID_"+ timeStamp + ".mp4");
         
         Log.d("FileUtil", "writing to " + mediaFile);
 
-        return mediaFile;
+        return Uri.fromFile(mediaFile);
     }
+	
+	private static File getMediaStorageDir(){
+		return new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "Captures");
+	}
     
     public static void AppendFiles(String outputFilename, String[] inputFiles) {
     	OutputStream output = null;
