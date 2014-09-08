@@ -1,8 +1,11 @@
 package com.example.videoexperiment;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -64,6 +67,7 @@ public class FileUtil {
     
     public static void AppendFiles(String outputFilename, String[] inputFiles) {
     	OutputStream output = null;
+    	InputStream input = null;
     	
     	try {
 	    	try {
@@ -71,6 +75,15 @@ public class FileUtil {
 	    		
 	    		for(int inputIndex = 0; inputIndex < inputFiles.length; inputIndex++) {
 	    			
+	    			input = new BufferedInputStream(new FileInputStream(inputFiles[inputIndex]));
+	    			byte[] buffer = new byte[1024 *200];
+	    			int len;
+	    			while((len = input.read(buffer)) > 0) {
+	    				output.write(buffer, 0, len);
+	    			}
+	    			
+	    			input.close();
+	    			input = null;
 	    		}
 	    	}
 	    	finally {
@@ -81,6 +94,25 @@ public class FileUtil {
     	}
     	catch(Exception e) {
     		throw new RuntimeException(e);
+    	}
+    }
+    
+    public static void DeleteDirectory(File file) {
+    	
+    	if (!file.exists())
+    		return;
+    	
+    	if (file.isDirectory()) {
+
+        	String[] children = file.list();
+        	
+        	for(int i = 0; i < children.length; i++) {
+        		DeleteDirectory(new File(file, children[i]));
+        	}
+        }
+    
+    	if (!file.delete()) {
+    		throw new RuntimeException("Unable to delete " + file.toString());
     	}
     }
 }
