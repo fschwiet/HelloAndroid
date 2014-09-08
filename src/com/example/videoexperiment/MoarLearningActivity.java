@@ -1,14 +1,14 @@
 package com.example.videoexperiment;
 
-import java.io.IOException;
-
 import android.app.Activity;
-import android.hardware.Camera;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 
 public class MoarLearningActivity extends Activity {
+	
+	CameraPreview recordingView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -18,7 +18,19 @@ public class MoarLearningActivity extends Activity {
 		
 		LinearLayout mLayout = (LinearLayout)findViewById(R.id.moar_layout);
 		
-		mLayout.addView(new CameraPreview(this, CameraChooser.GetFrontFacingCameraGingerbread()));
+		recordingView = new CameraPreview(this, CameraChooser.GetFrontFacingCameraGingerbread());
+		
+		mLayout.addView(recordingView);
+		
+		Button clipButton = (Button)this.findViewById(R.id.moar_clip);
+		
+		clipButton.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+            public void onClick(View arg0) {
+	            recordingView.ClipRecording();
+            }
+		});
 	}
 }
 

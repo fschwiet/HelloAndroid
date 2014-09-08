@@ -129,4 +129,9 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         StartCamera();
         StartRecorder();
     }
+
+	public void ClipRecording() {
+		StopRecorder();
+		StartRecorder();
+    }
 }
