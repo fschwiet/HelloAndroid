@@ -1,11 +1,14 @@
 package com.example.videoexperiment;
 
+import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.channels.FileChannel;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 import com.coremedia.iso.boxes.Container;
+import com.coremedia.iso.boxes.FileTypeBox;
 import com.googlecode.mp4parser.authoring.Movie;
 import com.googlecode.mp4parser.authoring.Track;
 import com.googlecode.mp4parser.authoring.builder.DefaultMp4Builder;
@@ -13,9 +16,9 @@ import com.googlecode.mp4parser.authoring.container.mp4.MovieCreator;
 import com.googlecode.mp4parser.authoring.tracks.AppendTrack;
 
 public class MP4Util {
-	public void AppendMP4Files(String outputFile, String[] inputFiles) {
-
-		List<Movie> inputMovies = new List<Movie>();
+	public static void AppendMP4Files(String outputFile, String[] inputFiles) throws IOException {
+		
+		List<Movie> inputMovies = new ArrayList<Movie>();
 		
 		for (String file : inputFiles) {
 			inputMovies.add(MovieCreator.build(file));

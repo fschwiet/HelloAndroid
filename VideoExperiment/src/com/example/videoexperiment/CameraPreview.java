@@ -97,7 +97,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         mRecorder.start();
     }
     
-    private void StopRecorder() {
+    public void StopRecorder() {
         
         if (mRecorder == null) {
             return;

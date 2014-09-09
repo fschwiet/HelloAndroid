@@ -6,13 +6,21 @@
     android:layout_height="match_parent"
     tools:context="${relativePackage}.${activityClass}" >
     
-    <Button
-        android:id="@+id/moar_clip"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Clip" >
+        android:orientation="horizontal" >
 
-</Button>
-
-
+	    <Button
+	        android:id="@+id/moar_clip"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="Clip" />
+	    <Button
+	        android:id="@+id/moar_merge"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="Merge" />
+        
+    </LinearLayout>
 </LinearLayout>

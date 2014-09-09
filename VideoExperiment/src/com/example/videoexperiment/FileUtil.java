@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import android.content.Context;
@@ -19,7 +20,6 @@ import android.util.Log;
 public class FileUtil {
 	
 	public static Uri getOutputVideoFileUri(Context context) {
-
         // To be safe, you should check that the SDCard is mounted
         // using Environment.getExternalStorageState() before doing this.
 
@@ -43,6 +43,20 @@ public class FileUtil {
 
         return Uri.fromFile(mediaFile);
     }
+	
+	public static String[] getOutputVideoFiles() {
+		
+		ArrayList<String> results = new ArrayList<String>();
+		
+		for(File file : getMediaStorageDir().listFiles()) {
+			String name = file.getName();
+			if (name.startsWith("VID_") && name.endsWith(".mp4")) {
+				results.add(file.toString());
+			}
+		}
+		
+		return results.toArray(new String[0]);
+	}
 	
 	private static File getMediaStorageDir(){
 		return new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "Captures");
