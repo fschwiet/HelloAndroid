@@ -20,10 +20,8 @@ import android.util.Log;
 public class FileUtil {
 	
 	public static Uri getOutputVideoFileUri(Context context) {
-        // To be safe, you should check that the SDCard is mounted
-        // using Environment.getExternalStorageState() before doing this.
 
-        File mediaStorageDir = getMediaStorageDir();
+		File mediaStorageDir = getMediaStorageDir();
         // This location works best if you want the created images to be shared
         // between applications and persist after your app has been uninstalled.
 
@@ -59,6 +57,13 @@ public class FileUtil {
 	}
 	
 	private static File getMediaStorageDir(){
+		
+		String storageState = Environment.getExternalStorageState();
+		
+		if (!storageState.equals(Environment.MEDIA_MOUNTED)) {
+			throw new RuntimeException("Environment.getExternalStorageState() returned " + storageState + ", expected " + Environment.MEDIA_MOUNTED);
+		}
+		
 		return new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "Captures");
 	}
     
