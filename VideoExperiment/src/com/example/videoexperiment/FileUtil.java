@@ -64,7 +64,13 @@ public class FileUtil {
 			throw new RuntimeException("Environment.getExternalStorageState() returned " + storageState + ", expected " + Environment.MEDIA_MOUNTED);
 		}
 		
-		return new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "Captures");
+		File externalStorage = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+		
+		if (!externalStorage.exists()) {
+			throw new RuntimeException("Could not find external storage at " + externalStorage.toString() + ", try taking a picture then rebooting your device.");
+		}
+		
+		return new File(externalStorage, "Captures");
 	}
     
     public static void AppendFiles(String outputFilename, String[] inputFiles) {
