@@ -6,6 +6,7 @@ import java.io.IOException;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -13,7 +14,11 @@ import android.widget.LinearLayout;
 public class MoarLearningActivity extends Activity {
 	
 	CameraPreview recordingView;
-
+	
+	Handler enableButtonHandler = new Handler();
+	Button clipButton;
+	Button mergeButton;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		
@@ -26,22 +31,28 @@ public class MoarLearningActivity extends Activity {
 		
 		mLayout.addView(recordingView);
 		
-		Button clipButton = (Button)this.findViewById(R.id.moar_clip);
+		clipButton = (Button)this.findViewById(R.id.moar_clip);
 		
 		clipButton.setOnClickListener(new View.OnClickListener() {
 
 			@Override
             public void onClick(View arg0) {
-	            recordingView.ClipRecording();
+				DisableButtons();
+				
+				recordingView.ClipRecording();
+				
+				TemporarilyDisableButtons();
             }
 		});
 		
-		Button mergeButton = (Button)this.findViewById(R.id.moar_merge);
+		mergeButton = (Button)this.findViewById(R.id.moar_merge);
 		
 		mergeButton.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
+				
+				DisableButtons();
 				
 				recordingView.StopRecorder();
 				
@@ -52,8 +63,41 @@ public class MoarLearningActivity extends Activity {
                 } catch (IOException e) {
 	                throw new RuntimeException(e);
                 }
+				finally
+				{
+					TemporarilyDisableButtons();
+				}
 			}
 		});
+		
+		TemporarilyDisableButtons();
+	}
+
+	Runnable enableButtons = new Runnable() {
+
+		@Override
+		public void run() {
+			clipButton.setEnabled(true);
+			mergeButton.setEnabled(true);
+		}
+	};
+	
+	private void DisableButtons() {
+		clipButton.setEnabled(false);
+		mergeButton.setEnabled(false);
+	}
+	
+	//
+	//  We need to temporarily disable buttons because MediaRecorder will crash
+	//  if asked to stop() too quickly.
+	//
+	
+	private void TemporarilyDisableButtons() {
+		clipButton.setEnabled(false);
+		mergeButton.setEnabled(false);
+		
+		enableButtonHandler.removeCallbacks(enableButtons);
+		enableButtonHandler.postDelayed(enableButtons, 1000);
 	}
 }
 
