@@ -10,7 +10,6 @@ import java.io.OutputStream;
 import junit.framework.Assert;
 import android.os.Environment;
 import android.test.AndroidTestCase;
-import android.util.Log;
 
 import com.example.videoexperiment.FileUtil;
 

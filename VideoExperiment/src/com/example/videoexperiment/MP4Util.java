@@ -11,7 +11,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.coremedia.iso.boxes.Container;
-import com.coremedia.iso.boxes.FileTypeBox;
 import com.googlecode.mp4parser.authoring.Movie;
 import com.googlecode.mp4parser.authoring.Track;
 import com.googlecode.mp4parser.authoring.builder.DefaultMp4Builder;
@@ -56,9 +55,17 @@ public class MP4Util {
 
         Container out = new DefaultMp4Builder().build(result);
 
-        FileChannel fc = new RandomAccessFile(outputFile, "rw").getChannel();
-        out.writeContainer(fc);
-        fc.close();
+        RandomAccessFile output = new RandomAccessFile(outputFile, "rw");
+        try
+        {
+            FileChannel fc = output.getChannel();
+            out.writeContainer(fc);
+            fc.close();
+        }
+        finally
+        {
+        	output.close();
+        }
 	}
 	
 

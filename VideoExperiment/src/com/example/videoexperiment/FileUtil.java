@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
@@ -19,6 +20,7 @@ import android.util.Log;
 
 public class FileUtil {
 	
+	@SuppressLint("SimpleDateFormat") 
 	public static Uri getOutputVideoFileUri(Context context) {
 
 		File mediaStorageDir = getMediaStorageDir();

@@ -5,7 +5,6 @@ import java.io.IOException;
 import android.content.Context;
 import android.hardware.Camera;
 import android.media.CamcorderProfile;
-import android.media.CameraProfile;
 import android.media.MediaRecorder;
 import android.util.Log;
 import android.view.SurfaceHolder;
@@ -17,7 +16,8 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     private Camera mCamera;
     private MediaRecorder mRecorder;
     
-    public CameraPreview(Context context, int cameraId) {
+    @SuppressWarnings("deprecation")
+	public CameraPreview(Context context, int cameraId) {
         super(context);
         
         iCameraId = cameraId;

@@ -1,16 +1,10 @@
 package com.example.videoexperiment;
 
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -18,7 +12,6 @@ import android.view.MenuItem;
 public class LetsGoActivity extends Activity {
 
 	private static final int CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE = 200;
-	private Uri fileUri;
 	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
