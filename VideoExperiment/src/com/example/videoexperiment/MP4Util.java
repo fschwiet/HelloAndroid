@@ -49,7 +49,7 @@ public class MP4Util {
 
         Container out = new DefaultMp4Builder().build(result);
 
-        FileChannel fc = new RandomAccessFile(String.format("output.mp4"), "rw").getChannel();
+        FileChannel fc = new RandomAccessFile(outputFile, "rw").getChannel();
         out.writeContainer(fc);
         fc.close();
 	}
