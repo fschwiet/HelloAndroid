@@ -14,7 +14,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     private SurfaceHolder mHolder;
     private int iCameraId;
     private Camera mCamera;
-    private MediaRecorder mRecorder;
+    private Recorder mRecorder;
     
     @SuppressWarnings("deprecation")
 	public CameraPreview(Context context, int cameraId) {
@@ -75,26 +75,10 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
             throw new RuntimeException("StartRecorder called while already recording.");
         }
         
-        mRecorder = new MediaRecorder();
+        String outputPath = FileUtil.getOutputVideoFileUri(this.getContext()).getPath();
         
-        mCamera.unlock();
-        mRecorder.setCamera(mCamera);
-        mRecorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
-        mRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
-        
-        mRecorder.setProfile(GetProfile());
-
-        mRecorder.setOutputFile(FileUtil.getOutputVideoFileUri(this.getContext()).getPath());
-        mRecorder.setPreviewDisplay(getHolder().getSurface());
-        
-        try {
-            mRecorder.prepare();
-        } catch (Exception e) {
-            mCamera.lock();
-            throw new RuntimeException(e);
-        }
-
-        mRecorder.start();
+        mRecorder = new Recorder(mCamera);
+        mRecorder.Start(GetProfile(), outputPath, getHolder().getSurface());
     }
     
     public void StopRecorder() {
@@ -103,10 +87,8 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
             return;
         }
         
-        mRecorder.stop();
-        mRecorder.reset();
-        mRecorder.release();
-        mCamera.lock();
+        mRecorder.Stop();
+        
         mRecorder = null;
     }
 
@@ -119,7 +101,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
             // preview surface does not exist
             return;
         }
-
+        
         StopRecorder();
         mCamera.stopPreview();
 
