@@ -1,6 +1,5 @@
 package com.example.videoexperiment;
 
-import android.content.Context;
 import android.hardware.Camera;
 import android.media.CamcorderProfile;
 import android.media.MediaRecorder;

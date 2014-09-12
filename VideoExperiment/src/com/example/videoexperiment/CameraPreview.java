@@ -5,7 +5,6 @@ import java.io.IOException;
 import android.content.Context;
 import android.hardware.Camera;
 import android.media.CamcorderProfile;
-import android.media.MediaRecorder;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
