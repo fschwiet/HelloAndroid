@@ -15,24 +15,20 @@ public class ChooseActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_choose);
 		
-		Button mRecorderButton = (Button)findViewById(R.id.button_recorder);
-		Button mRecorder2Button = (Button)findViewById(R.id.button_recorder2);
+		LinkButtonToActivity(R.id.button_recorder, LetsGoActivity.class);
+		LinkButtonToActivity(R.id.button_recorder2, MoarLearningActivity.class);
+		LinkButtonToActivity(R.id.button_player, CustomPlayerActivity.class);		
+	}
+	
+	private void LinkButtonToActivity(int buttonId, final Class<?> intentClass) {
+	
+		Button button = (Button)findViewById(buttonId);
 		
-		mRecorderButton.setOnClickListener(new Button.OnClickListener() {
+		button.setOnClickListener(new Button.OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
-				Intent intent = new Intent(ChooseActivity.this, LetsGoActivity.class);
-				startActivity(intent);
-			}
-		});
-		
-		mRecorder2Button.setOnClickListener(new Button.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(ChooseActivity.this, MoarLearningActivity.class);
-				startActivity(intent);
+				startActivity(new Intent(ChooseActivity.this, intentClass));
 			}
 		});
 	}

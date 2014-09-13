@@ -10,10 +10,11 @@
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-	<uses-permission android:name="android.permission.CAMERA" />
-	<uses-feature android:name="android.hardware.camera" />
-	<uses-feature android:name="android.hardware.camera.front" />
-	   <!-- android:required="false"  -->
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.front" />
+    <!-- android:required="false" -->
 
     <application
         android:allowBackup="true"
@@ -36,6 +37,10 @@
         <activity
             android:name=".MoarLearningActivity"
             android:label="@string/title_activity_moar_learning" >
+        </activity>
+        <activity
+            android:name=".CustomPlayerActivity"
+            android:label="@string/title_activity_customer_player" >
         </activity>
     </application>
 
