@@ -2,12 +2,15 @@ package com.example.videoexperiment;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import android.app.Activity;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SurfaceHolder;
@@ -21,8 +24,10 @@ public class CustomPlayerActivity extends Activity implements SurfaceHolder.Call
 
 	MediaPlayer player;
 	File fileToPlay;
-	int fps = 10;
+	int fps = 30;
 	int currentSpeed = 0;
+	Timer playbackTimer;
+	boolean pauseTimer = false;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -64,22 +69,27 @@ public class CustomPlayerActivity extends Activity implements SurfaceHolder.Call
 			throw new RuntimeException(e);
 		}
 		
-		SeekBar scroller = (SeekBar)findViewById(R.id.player_scroller);
+		final SeekBar scroller = (SeekBar)findViewById(R.id.player_scroller);
 		scroller.setMax(player.getDuration());
 		
 		scroller.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 
 			@Override
-			public void onProgressChanged(SeekBar arg0, int arg1, boolean arg2) {
-				player.seekTo(arg1);
+			public void onProgressChanged(SeekBar arg0, int position, boolean fromUser) {
+				
+				if (fromUser) {
+					player.seekTo(position);					
+				}
 			}
 
 			@Override
 			public void onStartTrackingTouch(SeekBar seekBar) {
+				pauseTimer = true;
 			}
 
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {
+				pauseTimer = false;
 			}
 		});
 		
@@ -88,6 +98,29 @@ public class CustomPlayerActivity extends Activity implements SurfaceHolder.Call
 		AttachPlaybackSpeedButton(R.id.button_pause, 0);
 		AttachPlaybackSpeedButton(R.id.button_play, 1);
 		AttachPlaybackSpeedButton(R.id.button_playFast, 4);
+		
+		playbackTimer = new Timer();
+		playbackTimer.schedule(new TimerTask() {
+
+			@Override
+			public void run() {
+				int delta = currentSpeed * 1000 / fps;
+				
+				int nextTime = player.getCurrentPosition() + delta;
+				
+				if (nextTime < 0) {
+					nextTime = 0;
+				} else if (nextTime > player.getDuration()) {
+					nextTime = player.getDuration();
+				}
+				
+				Log.d("playback timer", "current: " + player.getCurrentPosition());
+				
+				if (nextTime != player.getCurrentPosition()) {
+					player.seekTo(nextTime);
+					scroller.setProgress(nextTime);
+				}
+			}}, 1000 /fps, 1000 / fps);
 		//player.start();
 	}
 
@@ -114,5 +147,14 @@ public class CustomPlayerActivity extends Activity implements SurfaceHolder.Call
 	public void surfaceDestroyed(SurfaceHolder arg0) {
 		// TODO Auto-generated method stub
 		
+		if (playbackTimer != null) {
+			playbackTimer.cancel();
+			playbackTimer = null;
+		}
+		
+		if (player != null) {
+			player.release();
+			player = null;
+		}	
 	}
 }
