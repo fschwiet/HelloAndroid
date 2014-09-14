@@ -1,5 +1,6 @@
 package com.example.videoexperiment;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -17,7 +18,8 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     private Camera mCamera;
     private Recorder mRecorder;
     private Timer clipRecordingTimer;
-    private int secondsPerRecording = 3;
+    private int secondsPerClip = 3;
+    private int numberOfPastClipsKept = 5;
     
     @SuppressWarnings("deprecation")
 	public CameraPreview(Context context, int cameraId) {
@@ -89,11 +91,18 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
 			@Override
 			public void run() {
-				StopRecorder();
-				StartRecorder();
+				ClipRecording();
+				
+				String[] allClips = FileUtil.getOutputVideoFiles();
+				
+				if (allClips.length > numberOfPastClipsKept) {
+					for(int i = 0; i < allClips.length - numberOfPastClipsKept; i++) {
+						new File(allClips[i]).delete();
+					}
+				}
 			}
         	
-        }, secondsPerRecording * 1000, secondsPerRecording * 1000);
+        }, secondsPerClip * 1000, secondsPerClip * 1000);
     }
     
     public void StopRecorder() {
