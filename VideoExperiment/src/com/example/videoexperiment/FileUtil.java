@@ -9,6 +9,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 
 import android.annotation.SuppressLint;
@@ -54,6 +56,22 @@ public class FileUtil {
 				results.add(file.toString());
 			}
 		}
+		
+		Collections.sort(results, new Comparator<String>() {
+			
+			@Override
+			public int compare(String arg0, String arg1) {
+				Long firstDate = new File(arg0).lastModified();
+				Long lastDate = new File(arg1).lastModified();
+				
+				if (firstDate < lastDate)
+					return -1;
+				else if (firstDate == lastDate)
+					return 0;
+				else
+					return 1;
+			}
+		});
 		
 		return results.toArray(new String[0]);
 	}
