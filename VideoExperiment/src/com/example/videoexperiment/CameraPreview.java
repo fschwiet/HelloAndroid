@@ -8,7 +8,6 @@ import java.util.TimerTask;
 import android.content.Context;
 import android.hardware.Camera;
 import android.media.CamcorderProfile;
-import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -18,7 +17,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     private Camera mCamera;
     private Recorder mRecorder;
     private Timer clipRecordingTimer;
-    private int secondsPerClip = 240;
+    private int secondsPerClip = 5;
     private int numberOfPastClipsKept = 3;
     
     @SuppressWarnings("deprecation")
@@ -42,8 +41,6 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     private void StartCamera() {
 
         SurfaceHolder holder = getHolder();
-        
-        Log.d("StartCamera", holder.getSurfaceFrame().width() + ", " + holder.getSurfaceFrame().height());
         
         try {
             mCamera.setPreviewDisplay(getHolder());    
@@ -73,7 +70,6 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     }
 
     public void surfaceDestroyed(SurfaceHolder holder) {
-        Log.d("CameraPreview", "Releasing camera");
         
         StopRecorder();
         mCamera.stopPreview();
@@ -110,16 +106,15 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     
     public void StopRecorder() {
         
-        if (mRecorder == null) {
-            return;
+        if (clipRecordingTimer != null) {
+            clipRecordingTimer.cancel();
+            clipRecordingTimer = null;
         }
-        
-        mRecorder.Stop();
-        
-        mRecorder = null;
-        
-        clipRecordingTimer.cancel();
-        clipRecordingTimer = null;
+
+        if (mRecorder != null) {
+        	mRecorder.Stop();
+            mRecorder = null;
+        }
     }
 
     public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
