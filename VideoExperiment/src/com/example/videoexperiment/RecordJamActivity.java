@@ -59,6 +59,13 @@ public class RecordJamActivity extends Activity {
 				
 				recordingView.StopRecorder();
 				
+				//  HACK TODO:  sleep a little to ensure output file is closed
+				try {
+					Thread.sleep(2000);
+				} catch (InterruptedException e1) {
+					throw new RuntimeException(e1);
+				}
+				
 				String[] files = FileUtil.getOutputVideoFiles();
 				File outputFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "merged.mp4");
 				try {
