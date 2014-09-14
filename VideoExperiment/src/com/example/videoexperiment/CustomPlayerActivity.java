@@ -27,7 +27,7 @@ public class CustomPlayerActivity extends Activity implements SurfaceHolder.Call
 	int fps = 30;
 	int currentSpeed = 0;
 	Timer playbackTimer;
-	boolean pauseTimer = false;
+	boolean userMovingSlider = false;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -84,26 +84,42 @@ public class CustomPlayerActivity extends Activity implements SurfaceHolder.Call
 
 			@Override
 			public void onStartTrackingTouch(SeekBar seekBar) {
-				pauseTimer = true;
+				userMovingSlider = true;
 			}
 
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {
-				pauseTimer = false;
+				userMovingSlider = false;
 			}
 		});
 		
 		AttachPlaybackSpeedButton(R.id.button_playFastReverse, -4);
 		AttachPlaybackSpeedButton(R.id.button_playReverse, -1);
 		AttachPlaybackSpeedButton(R.id.button_pause, 0);
-		AttachPlaybackSpeedButton(R.id.button_play, 1);
 		AttachPlaybackSpeedButton(R.id.button_playFast, 4);
+		
+		Button playButton = (Button)findViewById(R.id.button_play);
+		playButton.setOnClickListener(new Button.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				currentSpeed = 0;
+				player.start();
+			}
+		});
 		
 		playbackTimer = new Timer();
 		playbackTimer.schedule(new TimerTask() {
 
 			@Override
 			public void run() {
+				
+				if (userMovingSlider) {
+					return;
+				}
+				
+				scroller.setProgress(player.getCurrentPosition());
+				
 				int delta = currentSpeed * 1000 / fps;
 				
 				int nextTime = player.getCurrentPosition() + delta;
@@ -113,8 +129,6 @@ public class CustomPlayerActivity extends Activity implements SurfaceHolder.Call
 				} else if (nextTime > player.getDuration()) {
 					nextTime = player.getDuration();
 				}
-				
-				Log.d("playback timer", "current: " + player.getCurrentPosition());
 				
 				if (nextTime != player.getCurrentPosition()) {
 					player.seekTo(nextTime);
@@ -132,7 +146,7 @@ public class CustomPlayerActivity extends Activity implements SurfaceHolder.Call
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				player.pause();
 				currentSpeed = speed;
 			}
 		});
