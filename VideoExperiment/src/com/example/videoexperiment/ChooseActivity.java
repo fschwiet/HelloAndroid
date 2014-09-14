@@ -16,7 +16,7 @@ public class ChooseActivity extends Activity {
 		setContentView(R.layout.activity_choose);
 		
 		LinkButtonToActivity(R.id.button_recorder, LetsGoActivity.class);
-		LinkButtonToActivity(R.id.button_recorder2, MoarLearningActivity.class);
+		LinkButtonToActivity(R.id.button_recorder2, RecordJamActivity.class);
 		LinkButtonToActivity(R.id.button_player, CustomPlayerActivity.class);		
 	}
 	

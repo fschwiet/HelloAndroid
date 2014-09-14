@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
-public class MoarLearningActivity extends Activity {
+public class RecordJamActivity extends Activity {
 	
 	CameraPreview recordingView;
 	
@@ -23,9 +23,9 @@ public class MoarLearningActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_moar_learning);
+		setContentView(R.layout.activity_record_jam);
 		
-		LinearLayout mLayout = (LinearLayout)findViewById(R.id.moar_layout);
+		LinearLayout mLayout = (LinearLayout)findViewById(R.id.layout_record_jam);
 		
 		recordingView = new CameraPreview(this, CameraChooser.GetFrontFacingCameraGingerbread());
 		
