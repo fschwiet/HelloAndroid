@@ -113,7 +113,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
         if (mRecorder != null) {
         	mRecorder.Stop();
-            mRecorder = null;
+        	mRecorder = null;
         }
     }
 
