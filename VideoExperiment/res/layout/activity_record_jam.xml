@@ -17,10 +17,10 @@
 	        android:layout_height="wrap_content"
 	        android:text="Clip" />
 	    <Button
-	        android:id="@+id/moar_merge"
+	        android:id="@+id/button_review_jam"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:text="Merge" />
+	        android:text="Review" />
         
     </LinearLayout>
 </LinearLayout>

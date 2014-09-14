@@ -26,7 +26,6 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         super(context);
         
         iCameraId = cameraId;
-        mCamera = Camera.open(iCameraId);
 
         // Install a SurfaceHolder.Callback so we get notified when the
         // underlying surface is created and destroyed.
@@ -41,7 +40,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     }
     
     private void StartCamera() {
-        
+
         SurfaceHolder holder = getHolder();
         
         Log.d("StartCamera", holder.getSurfaceFrame().width() + ", " + holder.getSurfaceFrame().height());
@@ -56,7 +55,13 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     }
 
     public void surfaceCreated(SurfaceHolder holder) {
-        CamcorderProfile profile = GetProfile();
+ 
+    	if (mCamera != null) {
+    		throw new RuntimeException("StartCamera called while camera already started");
+    	}
+    	
+        mCamera = Camera.open(iCameraId);    	
+    	CamcorderProfile profile = GetProfile();
         
         Camera.Parameters parameters = mCamera.getParameters();
         parameters.setPreviewSize(profile.videoFrameWidth,profile.videoFrameHeight);
@@ -73,6 +78,8 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         StopRecorder();
         mCamera.stopPreview();
         mCamera.release();
+        
+        mCamera = null;
     }
     
     private void StartRecorder(){

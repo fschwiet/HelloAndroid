@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -17,7 +18,7 @@ public class RecordJamActivity extends Activity {
 	
 	Handler enableButtonHandler = new Handler();
 	Button clipButton;
-	Button mergeButton;
+	Button reviewButton;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -45,9 +46,9 @@ public class RecordJamActivity extends Activity {
             }
 		});
 		
-		mergeButton = (Button)this.findViewById(R.id.moar_merge);
+		reviewButton = (Button)this.findViewById(R.id.button_review_jam);
 		
-		mergeButton.setOnClickListener(new View.OnClickListener() {
+		reviewButton.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
@@ -67,6 +68,9 @@ public class RecordJamActivity extends Activity {
 				{
 					TemporarilyDisableButtons();
 				}
+				
+				Intent reviewIntent = new Intent(RecordJamActivity.this, CustomPlayerActivity.class);
+				startActivity(reviewIntent);
 			}
 		});
 		
@@ -78,13 +82,13 @@ public class RecordJamActivity extends Activity {
 		@Override
 		public void run() {
 			clipButton.setEnabled(true);
-			mergeButton.setEnabled(true);
+			reviewButton.setEnabled(true);
 		}
 	};
 	
 	private void DisableButtons() {
 		clipButton.setEnabled(false);
-		mergeButton.setEnabled(false);
+		reviewButton.setEnabled(false);
 	}
 	
 	//
@@ -94,7 +98,7 @@ public class RecordJamActivity extends Activity {
 	
 	private void TemporarilyDisableButtons() {
 		clipButton.setEnabled(false);
-		mergeButton.setEnabled(false);
+		reviewButton.setEnabled(false);
 		
 		enableButtonHandler.removeCallbacks(enableButtons);
 		enableButtonHandler.postDelayed(enableButtons, 1000);
