@@ -1,6 +1,8 @@
 package com.example.videoexperiment;
 
 import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import android.content.Context;
 import android.hardware.Camera;
@@ -14,6 +16,8 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     private int iCameraId;
     private Camera mCamera;
     private Recorder mRecorder;
+    private Timer clipRecordingTimer;
+    private int secondsPerRecording = 3;
     
     @SuppressWarnings("deprecation")
 	public CameraPreview(Context context, int cameraId) {
@@ -57,6 +61,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         mCamera.setParameters(parameters);
         
         StartCamera();
+             
         //StartRecorder();  // This recording never works, need to wait until surfaceChanged
     }
 
@@ -78,6 +83,17 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         
         mRecorder = new Recorder(mCamera);
         mRecorder.Start(GetProfile(), outputPath, getHolder().getSurface());
+        
+        clipRecordingTimer = new Timer();
+        clipRecordingTimer.schedule(new TimerTask() {
+
+			@Override
+			public void run() {
+				StopRecorder();
+				StartRecorder();
+			}
+        	
+        }, secondsPerRecording * 1000, secondsPerRecording * 1000);
     }
     
     public void StopRecorder() {
@@ -89,6 +105,9 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         mRecorder.Stop();
         
         mRecorder = null;
+        
+        clipRecordingTimer.cancel();
+        clipRecordingTimer = null;
     }
 
     public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
