@@ -8,5 +8,11 @@
         android:id="@+id/player_surface"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"></SurfaceView>
+    
+    <SeekBar android:id="@+id/player_scroller" 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        
+    </SeekBar>
 
 </RelativeLayout>

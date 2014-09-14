@@ -12,6 +12,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 
 public class CustomPlayerActivity extends Activity implements SurfaceHolder.Callback {
 
@@ -58,7 +60,25 @@ public class CustomPlayerActivity extends Activity implements SurfaceHolder.Call
 			throw new RuntimeException(e);
 		}
 		
-		player.start();
+		SeekBar scroller = (SeekBar)findViewById(R.id.player_scroller);
+		scroller.setMax(player.getDuration());
+		
+		scroller.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+
+			@Override
+			public void onProgressChanged(SeekBar arg0, int arg1, boolean arg2) {
+				player.seekTo(arg1);
+			}
+
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {
+			}
+
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) {
+			}
+		});
+		//player.start();
 	}
 
 	@Override
