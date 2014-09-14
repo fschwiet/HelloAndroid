@@ -9,10 +9,52 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"></SurfaceView>
     
-    <SeekBar android:id="@+id/player_scroller" 
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
-        
-    </SeekBar>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
 
+	    <SeekBar android:id="@+id/player_scroller" 
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"/>
+	 
+	    <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal" >
+	        
+	        <Button
+	            android:id="@+id/button_playFastReverse"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="&lt;&lt;" />
+	
+	        <Button
+	            android:id="@+id/button_playReverse"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="&lt;" />
+	
+	        <Button
+	            android:id="@+id/button_pause"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="||" />
+	
+	        <Button
+	            android:id="@+id/button_play"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text=">" />
+	
+	        <Button
+	            android:id="@+id/button_playFast"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text=">>" />
+	        
+	    </LinearLayout>
+	        
+    </LinearLayout>
+    
 </RelativeLayout>

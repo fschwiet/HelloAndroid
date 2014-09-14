@@ -12,6 +12,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
+import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
@@ -19,6 +21,8 @@ public class CustomPlayerActivity extends Activity implements SurfaceHolder.Call
 
 	MediaPlayer player;
 	File fileToPlay;
+	int fps = 10;
+	int currentSpeed = 0;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +82,32 @@ public class CustomPlayerActivity extends Activity implements SurfaceHolder.Call
 			public void onStopTrackingTouch(SeekBar seekBar) {
 			}
 		});
+		
+		AttachPlaybackSpeedButton(R.id.button_playFastReverse, -4);
+		AttachPlaybackSpeedButton(R.id.button_playReverse, -1);
+		AttachPlaybackSpeedButton(R.id.button_pause, 0);
+		AttachPlaybackSpeedButton(R.id.button_play, 1);
+		AttachPlaybackSpeedButton(R.id.button_playFast, 4);
 		//player.start();
+	}
+
+	private void AttachPlaybackSpeedButton(int resourceId, final int speed) {
+		
+		Button button = (Button)findViewById(resourceId);
+		
+		button.setOnClickListener(new Button.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				currentSpeed = speed;
+			}
+		});
+	}
+	
+	private Button findViewById(String string) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
