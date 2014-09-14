@@ -93,16 +93,12 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 			public void run() {
 				ClipRecording();
 				
-				String[] allClips = FileUtil.getOutputVideoFiles();
-				
-				if (allClips.length > numberOfPastClipsKept) {
-					for(int i = 0; i < allClips.length - numberOfPastClipsKept; i++) {
-						new File(allClips[i]).delete();
-					}
-				}
+				truncateRecordingHistory();
 			}
         	
         }, secondsPerClip * 1000, secondsPerClip * 1000);
+        
+        truncateRecordingHistory();
     }
     
     public void StopRecorder() {
@@ -143,4 +139,15 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 		StopRecorder();
 		StartRecorder();
     }
+	
+	private void truncateRecordingHistory(){
+		
+		String[] allClips = FileUtil.getOutputVideoFiles();
+		
+		if (allClips.length > numberOfPastClipsKept) {
+			for(int i = 0; i < allClips.length - numberOfPastClipsKept; i++) {
+				new File(allClips[i]).delete();
+			}
+		}
+	}
 }
