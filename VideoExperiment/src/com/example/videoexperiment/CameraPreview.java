@@ -17,7 +17,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     private Camera mCamera;
     private Recorder mRecorder;
     private Timer clipRecordingTimer;
-    private int secondsPerClip = 240;
+    private int secondsPerClip = 60;
     private int numberOfPastClipsKept = 3;
     
     @SuppressWarnings("deprecation")
