@@ -27,7 +27,7 @@ public class CustomPlayerActivity extends Activity implements SurfaceHolder.Call
 
 	MediaPlayer player;
 	File fileToPlay;
-	int fps = 30;
+	int fps = 5;
 	int currentSpeed = 0;
 	Timer playbackTimer;
 	boolean userMovingSlider = false;
@@ -133,12 +133,17 @@ public class CustomPlayerActivity extends Activity implements SurfaceHolder.Call
 
 					@Override
 					public void run() {
+						
 						if (userMovingSlider || playbackTimer == null) {
 							return;
 						}
 						
 						scroller.setProgress(player.getCurrentPosition());
 						
+						if (currentSpeed == 0) {
+							return;
+						}
+
 						int delta = currentSpeed * 1000 / fps;
 						
 						int nextTime = player.getCurrentPosition() + delta;
