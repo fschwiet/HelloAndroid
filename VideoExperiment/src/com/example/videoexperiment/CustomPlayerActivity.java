@@ -6,7 +6,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import android.app.Activity;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnErrorListener;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -56,6 +58,14 @@ public class CustomPlayerActivity extends Activity implements SurfaceHolder.Call
 	public void surfaceCreated(SurfaceHolder arg0) {
 		
 		player = new MediaPlayer();
+		
+		player.setOnErrorListener(new OnErrorListener() {
+			@Override
+			public boolean onError(MediaPlayer arg0, int arg1, int arg2) {
+				Log.e("CustomPlayerActivity", String.format("MediaPlayer onError: arg1: %d,  arg2: %d", arg1, arg2));
+				return false;
+			}
+		});
 
 		player.setDisplay(arg0);
 		
@@ -158,7 +168,10 @@ public class CustomPlayerActivity extends Activity implements SurfaceHolder.Call
 
 			@Override
 			public void onClick(View v) {
-				player.pause();
+				
+				if (player.isPlaying()) {
+					player.pause();
+				}
 				currentSpeed = speed;
 			}
 		});
