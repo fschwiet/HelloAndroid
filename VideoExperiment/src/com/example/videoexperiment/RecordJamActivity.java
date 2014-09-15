@@ -25,6 +25,18 @@ public class RecordJamActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		
 		super.onCreate(savedInstanceState);
+		
+		if (savedInstanceState == null) {
+			String[] allClips = FileUtil.getOutputVideoFiles();
+			for(String clip : allClips) {
+				new File(clip).delete();				
+			}
+			
+			File mergeFile = FileUtil.getMergedOutputFile();
+			if (mergeFile.exists())
+				mergeFile.delete();
+		}
+		
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_record_jam);
 		
@@ -67,7 +79,7 @@ public class RecordJamActivity extends Activity {
 				}
 				
 				String[] files = FileUtil.getOutputVideoFiles();
-				File outputFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "merged.mp4");
+				File outputFile = FileUtil.getMergedOutputFile();
 				try {
 	                MP4Util.AppendMP4Files(outputFile.toString(), files);
                 } catch (IOException e) {

@@ -143,4 +143,8 @@ public class FileUtil {
     		throw new RuntimeException("Unable to delete " + file.toString());
     	}
     }
+
+	public static File getMergedOutputFile() {
+		return new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "merged.mp4");
+	}
 }

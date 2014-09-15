@@ -36,7 +36,7 @@ public class CustomPlayerActivity extends Activity implements SurfaceHolder.Call
 		requestWindowFeature(Window.FEATURE_NO_TITLE); 
 		setContentView(R.layout.activity_custom_player);
 		
-		fileToPlay = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "merged.mp4");
+		fileToPlay = FileUtil.getMergedOutputFile();
 		
 		if (!fileToPlay.exists()) {
 			throw new RuntimeException("could not find file " + fileToPlay.toString());
