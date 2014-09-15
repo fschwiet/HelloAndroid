@@ -25,7 +25,7 @@ public class Recorder {
         
         mCamera.unlock();
         mRecorder.setCamera(mCamera);
-        mRecorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
+        mRecorder.setAudioSource(MediaRecorder.AudioSource.DEFAULT);
         mRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
         
         mRecorder.setProfile(profile);
