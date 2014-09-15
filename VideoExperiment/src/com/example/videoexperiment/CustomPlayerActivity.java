@@ -119,26 +119,33 @@ public class CustomPlayerActivity extends Activity implements SurfaceHolder.Call
 			@Override
 			public void run() {
 				
-				if (userMovingSlider) {
-					return;
-				}
-				
-				scroller.setProgress(player.getCurrentPosition());
-				
-				int delta = currentSpeed * 1000 / fps;
-				
-				int nextTime = player.getCurrentPosition() + delta;
-				
-				if (nextTime < 0) {
-					nextTime = 0;
-				} else if (nextTime > player.getDuration()) {
-					nextTime = player.getDuration();
-				}
-				
-				if (nextTime != player.getCurrentPosition()) {
-					player.seekTo(nextTime);
-					scroller.setProgress(nextTime);
-				}
+				CustomPlayerActivity.this.runOnUiThread(new Runnable() {
+
+					@Override
+					public void run() {
+						if (userMovingSlider || playbackTimer == null) {
+							return;
+						}
+						
+						scroller.setProgress(player.getCurrentPosition());
+						
+						int delta = currentSpeed * 1000 / fps;
+						
+						int nextTime = player.getCurrentPosition() + delta;
+						
+						if (nextTime < 0) {
+							nextTime = 0;
+						} else if (nextTime > player.getDuration()) {
+							nextTime = player.getDuration();
+						}
+						
+						if (nextTime != player.getCurrentPosition()) {
+							player.seekTo(nextTime);
+							scroller.setProgress(nextTime);
+						}
+					}
+					
+				});
 			}}, 1000 /fps, 1000 / fps);
 		//player.start();
 	}
@@ -156,15 +163,9 @@ public class CustomPlayerActivity extends Activity implements SurfaceHolder.Call
 			}
 		});
 	}
-	
-	private Button findViewById(String string) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public void surfaceDestroyed(SurfaceHolder arg0) {
-		// TODO Auto-generated method stub
 		
 		if (playbackTimer != null) {
 			playbackTimer.cancel();

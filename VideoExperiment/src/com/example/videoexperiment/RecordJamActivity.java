@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -54,9 +55,15 @@ public class RecordJamActivity extends Activity {
             public void onClick(View arg0) {
 				DisableButtons();
 				
-				recordingView.ClipRecording();
-				
-				TemporarilyDisableButtons();
+				new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+						recordingView.ClipRecording();
+						
+						TemporarilyDisableButtons();
+					}					
+				}).start();
             }
 		});
 		
@@ -69,29 +76,37 @@ public class RecordJamActivity extends Activity {
 				
 				DisableButtons();
 				
-				recordingView.StopRecorder();
-				
-				//  HACK TODO:  sleep a little to ensure output file is closed
-				try {
-					Thread.sleep(2000);
-				} catch (InterruptedException e1) {
-					throw new RuntimeException(e1);
-				}
-				
-				String[] files = FileUtil.getOutputVideoFiles();
-				File outputFile = FileUtil.getMergedOutputFile();
-				try {
-	                MP4Util.AppendMP4Files(outputFile.toString(), files);
-                } catch (IOException e) {
-	                throw new RuntimeException(e);
-                }
-				finally
-				{
-					TemporarilyDisableButtons();
-				}
-				
-				Intent reviewIntent = new Intent(RecordJamActivity.this, CustomPlayerActivity.class);
-				startActivity(reviewIntent);
+				new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						recordingView.StopRecorder();
+						
+						//  HACK TODO:  sleep a little to ensure output file is closed
+						try {
+							Thread.sleep(2000);
+						} catch (InterruptedException e1) {
+							throw new RuntimeException(e1);
+						}
+						
+						String[] files = FileUtil.getOutputVideoFiles();
+						File outputFile = FileUtil.getMergedOutputFile();
+						try {
+			                MP4Util.AppendMP4Files(outputFile.toString(), files);
+		                } catch (IOException e) {
+			                throw new RuntimeException(e);
+		                }
+						finally
+						{
+							TemporarilyDisableButtons();
+						}
+						
+						Intent reviewIntent = new Intent(RecordJamActivity.this, CustomPlayerActivity.class);
+						startActivity(reviewIntent);
+					}
+					
+				}).start();
 			}
 		});
 		
