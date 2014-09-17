@@ -6,13 +6,12 @@ import java.io.IOException;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.LinearLayout;
 
 public class RecordJamActivity extends Activity {
 	
@@ -41,7 +40,7 @@ public class RecordJamActivity extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_record_jam);
 		
-		LinearLayout mLayout = (LinearLayout)findViewById(R.id.layout_record_jam);
+		ViewGroup mLayout = (ViewGroup)findViewById(R.id.layout_record_jam);
 		
 		recordingView = new CameraPreview(this, CameraChooser.GetFrontFacingCameraGingerbread());
 		
