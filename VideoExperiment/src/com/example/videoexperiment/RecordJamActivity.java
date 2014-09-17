@@ -18,7 +18,6 @@ public class RecordJamActivity extends Activity {
 	CameraPreview recordingView;
 	
 	Handler enableButtonHandler = new Handler();
-	Button clipButton;
 	Button reviewButton;
 	
 	@Override
@@ -46,25 +45,6 @@ public class RecordJamActivity extends Activity {
 		
 		mLayout.addView(recordingView);
 		
-		clipButton = (Button)this.findViewById(R.id.moar_clip);
-		
-		clipButton.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-            public void onClick(View arg0) {
-				DisableButtons();
-				
-				new Thread(new Runnable() {
-
-					@Override
-					public void run() {
-						recordingView.ClipRecording();
-						
-						TemporarilyDisableButtons();
-					}					
-				}).start();
-            }
-		});
 		
 		reviewButton = (Button)this.findViewById(R.id.button_review_jam);
 		
@@ -116,13 +96,11 @@ public class RecordJamActivity extends Activity {
 
 		@Override
 		public void run() {
-			clipButton.setEnabled(true);
 			reviewButton.setEnabled(true);
 		}
 	};
 	
 	private void DisableButtons() {
-		clipButton.setEnabled(false);
 		reviewButton.setEnabled(false);
 	}
 	
@@ -132,7 +110,6 @@ public class RecordJamActivity extends Activity {
 	//
 	
 	private void TemporarilyDisableButtons() {
-		clipButton.setEnabled(false);
 		reviewButton.setEnabled(false);
 		
 		enableButtonHandler.removeCallbacks(enableButtons);
