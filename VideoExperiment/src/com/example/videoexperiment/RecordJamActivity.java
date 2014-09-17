@@ -43,7 +43,7 @@ public class RecordJamActivity extends Activity {
 		
 		recordingView = new CameraPreview(this, CameraChooser.GetFrontFacingCameraGingerbread());
 		
-		mLayout.addView(recordingView);
+		mLayout.addView(recordingView, 0);
 		
 		
 		reviewButton = (Button)this.findViewById(R.id.button_review_jam);

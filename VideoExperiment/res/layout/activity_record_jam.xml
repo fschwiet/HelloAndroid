@@ -1,21 +1,17 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:id="@+id/layout_record_jam"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="${relativePackage}.${activityClass}" >
-    
-    <LinearLayout
+
+    <Button
+        android:id="@+id/button_review_jam"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-	    <Button
-	        android:id="@+id/button_review_jam"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:text="Review" />
-        
-    </LinearLayout>
-</LinearLayout>
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:text="Review" />
+    
+</RelativeLayout>
