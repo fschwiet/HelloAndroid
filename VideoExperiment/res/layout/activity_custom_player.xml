@@ -25,31 +25,37 @@
             android:id="@+id/button_playFastReverse"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="&lt;&lt;" />
+            android:text="&lt;&lt;"
+            android:background="#DDe5e5e5" />
 
         <Button
             android:id="@+id/button_playReverse"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="&lt;" />
+            android:text="&lt;"
+            android:background="#DDe5e5e5" />
 
         <Button
             android:id="@+id/button_pause"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="||" />
+            android:text="||"
+            android:background="#DDe5e5e5" />
 
         <Button
             android:id="@+id/button_play"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=">" />
+            android:text=">"
+            android:background="#DDe5e5e5" />
 
         <Button
             android:id="@+id/button_playFast"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=">>" />
+            android:text=">>"
+            android:background="#DDe5e5e5" />
+        
     </LinearLayout>
     
 </RelativeLayout>
