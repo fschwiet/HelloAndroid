@@ -56,6 +56,5 @@
             android:text=">>"
             android:background="#DDe5e5e5" />
         
-    </LinearLayout>
-    
+    </LinearLayout>   
 </RelativeLayout>

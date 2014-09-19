@@ -21,5 +21,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Play the merged file" />
+        
+    <Button
+        android:id="@+id/button_try_drag_experiment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Try drag experiment" />
     
 </LinearLayout>

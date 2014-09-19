@@ -17,7 +17,8 @@ public class ChooseActivity extends Activity {
 		
 		LinkButtonToActivity(R.id.button_recorder, LetsGoActivity.class);
 		LinkButtonToActivity(R.id.button_recorder2, RecordJamActivity.class);
-		LinkButtonToActivity(R.id.button_player, CustomPlayerActivity.class);		
+		LinkButtonToActivity(R.id.button_player, CustomPlayerActivity.class);	
+		LinkButtonToActivity(R.id.button_try_drag_experiment, DragExperimentActivity.class);
 	}
 	
 	private void LinkButtonToActivity(int buttonId, final Class<?> intentClass) {

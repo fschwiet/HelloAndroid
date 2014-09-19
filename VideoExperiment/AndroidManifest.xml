@@ -42,6 +42,10 @@
             android:name=".CustomPlayerActivity"
             android:label="@string/title_activity_custom_player" >
         </activity>
+        <activity
+            android:name=".DragExperimentActivity"
+            android:label="@string/title_activity_drag_experiment" >
+        </activity>
     </application>
 
 </manifest>
