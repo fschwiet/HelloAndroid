@@ -82,7 +82,7 @@ public class CustomPlayerActivity extends Activity implements SurfaceHolder.Call
 		}
 		
 		player.seekTo(player.getDuration());
-		currentSpeed = -1;
+		currentSpeed = -2;
 		
 		final SeekBar scroller = (SeekBar)findViewById(R.id.player_scroller);
 		scroller.setMax(player.getDuration());
