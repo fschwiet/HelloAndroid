@@ -19,5 +19,13 @@
             android:text="WOW"
             android:background="#DD00e500" />
     </RelativeLayout>
+    
+    <com.example.videoexperiment.CustomSlider
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_centerHorizontal="true" 
+		android:layout_alignParentTop="true">
+        
+    </com.example.videoexperiment.CustomSlider>
 
 </RelativeLayout>
