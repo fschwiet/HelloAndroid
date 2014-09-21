@@ -12,82 +12,39 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.DragShadowBuilder;
+import android.widget.TextView;
 
 public class DragExperimentActivity extends Activity {
 	
-	public class DragExperimentTouchListener implements View.OnTouchListener {
-
-		public DragExperimentTouchListener(float initalX, float initialY) {
-			lastX = initalX;
-			lastY = initialY;
-		}
-		
-		boolean isDragging = false;
-		float lastX;
-		float lastY;
-		float deltaX;
-		
-		@Override
-		public boolean onTouch(View arg0, MotionEvent arg1) {
-			
-			int action = arg1.getAction();
-			
-			if (action == MotionEvent.ACTION_DOWN && !isDragging) {
-				isDragging = true; 
-				deltaX = arg1.getX();
-				return true;
-			} else if (isDragging) {
-				if (action == MotionEvent.ACTION_MOVE) {
-					
-					arg0.setX(arg0.getX() + arg1.getX() - deltaX);
-					arg0.setY(arg0.getY());
-					return true;
-				} else if (action == MotionEvent.ACTION_UP) {
-					isDragging = false;
-					lastX = arg1.getX();
-					lastY = arg1.getY();
-					return true;
-				} else if (action == MotionEvent.ACTION_CANCEL) {
-					arg0.setX(lastX);
-					arg0.setY(lastY);
-					isDragging = false;
-					return true;
-				}
-			}
-			
-			return false;
-		}
-	}
-
+	TextView textStart;
+	TextView textEnd;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_drag_experiment);
 		
-		final View dragButton = (View)findViewById(R.id.experiment_draggable);
+		CustomSlider slider = (CustomSlider)findViewById(R.id.slider_experiment);
 		
-		dragButton.setOnTouchListener(new DragExperimentTouchListener(dragButton.getX(), dragButton.getY()));
+		slider.minimum = -100;
+		slider.maximum = 100;
 		
-		/*
-		dragButton.setLongClickable(true);
-		dragButton.setOnLongClickListener(new View.OnLongClickListener(){
+		textStart = (TextView)findViewById(R.id.text_start);
+		textEnd = (TextView)findViewById(R.id.text_end);
+		
+		slider.setOnChangeListener(new CustomSlider.ChangeListener() {
 
 			@Override
-			public boolean onLongClick(View v) {
-				
-				ClipData dragData = ClipData.newPlainText(INPUT_SERVICE, "hi");
-				View.DragShadowBuilder myShadow = new DragShadowBuilder(dragButton);
-
-				v.startDrag(dragData,  // the data to be dragged
-					myShadow,  // the drag shadow builder
-					null,      // no need to use local data
-					0          // flags (not currently used, set to 0)
-				);
-    
-				return true;
+			public void onUpdate(float start, float end) {
+				DragExperimentActivity.this.setText(start, end);
 			}
-		})
-		*/;
+		});
+		
+		setText(slider.getStart(), slider.getEnd());
 	}
-
+	
+	private void setText(float start, float end) {
+		textStart.setText(String.format("%f", start));
+		textEnd.setText(String.format("%f", end));
+	}
 }

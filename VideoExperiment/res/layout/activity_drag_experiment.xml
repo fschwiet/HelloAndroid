@@ -3,29 +3,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="${relativePackage}.${activityClass}" >
-
-
-    <RelativeLayout
-        android:id="@+id/experiment_dragBar"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" >
-        
-        <Button
-            android:id="@+id/experiment_draggable"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="WOW"
-            android:background="#DD00e500" />
-    </RelativeLayout>
     
     <com.example.videoexperiment.CustomSlider
+        android:id="@+id/slider_experiment"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:layout_centerHorizontal="true" 
 		android:layout_alignParentTop="true">
         
     </com.example.videoexperiment.CustomSlider>
+
+    <TextView
+        android:id="@+id/text_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:text="" />
+
+    <TextView
+        android:id="@+id/text_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/text_start"
+        android:layout_below="@+id/text_start"
+        android:text="" />
 
 </RelativeLayout>

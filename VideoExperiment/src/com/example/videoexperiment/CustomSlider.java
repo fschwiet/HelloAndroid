@@ -1,5 +1,7 @@
 package com.example.videoexperiment;
 
+import java.util.ArrayList;
+
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -12,8 +14,29 @@ import android.widget.RelativeLayout;
 
 public class CustomSlider extends RelativeLayout {
 	
+	public float minimum;
+	public float maximum;
+	
+	public float getStart() {
+		return getValue(draggableStart);
+	}
+	
+	public float getEnd() {
+		return getValue(draggableEnd);
+	}
+	
+	public interface ChangeListener {
+		void onUpdate(float start, float end);
+	}
+	
+	public void setOnChangeListener(ChangeListener listener) {
+		changeListeners.add(listener);
+	}
+	
+	ArrayList<ChangeListener> changeListeners = new ArrayList<ChangeListener>();
 	View draggableStart;
 	View draggableEnd;
+	
 	
 	public CustomSlider(Context context) {
         super(context);
@@ -30,16 +53,12 @@ public class CustomSlider extends RelativeLayout {
 		init();
 	}	
 	
-	public float getStart() {
-		return draggableStart.getX();
-	}
-	
-	public float getEnd() {
-		return draggableEnd.getX();
-	}
-	
-	public float getMax() {
-		return this.getWidth() - draggableEnd.getWidth();
+	private float getValue(View draggable) {
+		float position = draggable.getX();
+		
+		Log.d("position", String.format("position: %f, width: %d, width2: %d", position, this.getWidth(), draggable.getWidth()));
+		
+		return (position / (this.getWidth() - draggable.getWidth())) * (maximum - minimum) + minimum;	
 	}
 	
 	private void init() {
@@ -69,7 +88,7 @@ public class CustomSlider extends RelativeLayout {
 
 			@Override
 			public float getEnd() {
-				return CustomSlider.this.getMax();
+				return CustomSlider.this.getWidth() - draggableEnd.getWidth();
 			}
 		}));
 	}
@@ -105,21 +124,17 @@ public class CustomSlider extends RelativeLayout {
 			} else if (isDragging) {
 				if (action == MotionEvent.ACTION_MOVE) {
 					
-					float resultingX = arg0.getX() + arg1.getX() - deltaX;
+					applyPosition(arg0, arg1);
 					
-					if (resultingX < range.getStart())
-						resultingX = range.getStart();
-					
-					if (resultingX > range.getEnd())
-						resultingX = range.getEnd();
-					
-					arg0.setX(resultingX);
-					arg0.setY(arg0.getY());
 					return true;
 				} else if (action == MotionEvent.ACTION_UP) {
 					isDragging = false;
-					lastX = arg1.getX();
-					lastY = arg1.getY();
+					
+					applyPosition(arg0, arg1);
+					
+					lastX = arg0.getX();
+					lastY = arg0.getY();
+					
 					return true;
 				} else if (action == MotionEvent.ACTION_CANCEL) {
 					arg0.setX(lastX);
@@ -130,6 +145,27 @@ public class CustomSlider extends RelativeLayout {
 			}
 			
 			return false;
+		}
+		
+		private void applyPosition(View arg0, MotionEvent arg1) {
+			float originalX = arg0.getX();
+			
+			float resultingX = arg0.getX() + arg1.getX() - deltaX;
+			
+			if (resultingX < range.getStart())
+				resultingX = range.getStart();
+			
+			if (resultingX > range.getEnd())
+				resultingX = range.getEnd();
+			
+			arg0.setX(resultingX);
+			arg0.setY(arg0.getY());	
+			
+			if (resultingX != originalX) {
+				for(ChangeListener listener : changeListeners) {
+					listener.onUpdate(getStart(), getEnd());
+				}
+			}
 		}
 	}
 }
