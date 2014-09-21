@@ -2,9 +2,18 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
     
     <Button
-        android:id="@+id/customSlider_draggable"
+        android:id="@+id/customSlider_draggable_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="WOW"
+        android:layout_alignParentLeft="true"
         android:background="#DD00e5e5" />
+    
+    <Button
+        android:id="@+id/customSlider_draggable_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="WOW"
+        android:layout_alignParentRight="true"
+        android:background="#DDe500e5" />
 </merge>
