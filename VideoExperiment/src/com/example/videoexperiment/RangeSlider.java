@@ -12,7 +12,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-public class CustomSlider extends RelativeLayout {
+public class RangeSlider extends RelativeLayout {
 	
 	public float minimum;
 	public float maximum;
@@ -38,17 +38,17 @@ public class CustomSlider extends RelativeLayout {
 	View draggableEnd;
 	
 	
-	public CustomSlider(Context context) {
+	public RangeSlider(Context context) {
         super(context);
         init();
     }
 	
-	public CustomSlider(Context context, AttributeSet attrs, int defStyle) {
+	public RangeSlider(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		init();
 	}
 
-	public CustomSlider(Context context, AttributeSet attrs) {
+	public RangeSlider(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		init();
 	}	
@@ -68,9 +68,9 @@ public class CustomSlider extends RelativeLayout {
 	}
 	
 	private void init() {
-		inflate(getContext(), R.layout.control_custom_slider, this);
+		inflate(getContext(), R.layout.control_range_slider, this);
 		
-		draggableStart = (View)findViewById(R.id.customSlider_draggable_start);
+		draggableStart = (View)findViewById(R.id.rangeSlider_draggable_start);
 		draggableStart.setOnTouchListener(new DragExperimentTouchListener(draggableStart.getX(), draggableStart.getY(), new DynamicRange() {
 
 			@Override
@@ -84,7 +84,7 @@ public class CustomSlider extends RelativeLayout {
 			}
 		}));
 		
-		draggableEnd = (View)findViewById(R.id.customSlider_draggable_end);
+		draggableEnd = (View)findViewById(R.id.rangeSlider_draggable_end);
 		draggableEnd.setOnTouchListener(new DragExperimentTouchListener(draggableEnd.getX(), draggableEnd.getY(), new DynamicRange() {
 
 			@Override
@@ -94,7 +94,7 @@ public class CustomSlider extends RelativeLayout {
 
 			@Override
 			public float getEnd() {
-				return CustomSlider.this.getWidth() - draggableEnd.getWidth();
+				return RangeSlider.this.getWidth() - draggableEnd.getWidth();
 			}
 		}));
 	}

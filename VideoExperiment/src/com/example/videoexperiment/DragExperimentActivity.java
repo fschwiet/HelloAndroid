@@ -24,7 +24,7 @@ public class DragExperimentActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_drag_experiment);
 		
-		CustomSlider slider = (CustomSlider)findViewById(R.id.slider_experiment);
+		RangeSlider slider = (RangeSlider)findViewById(R.id.slider_experiment);
 		
 		slider.minimum = -100;
 		slider.maximum = 100;
@@ -32,7 +32,7 @@ public class DragExperimentActivity extends Activity {
 		textStart = (TextView)findViewById(R.id.text_start);
 		textEnd = (TextView)findViewById(R.id.text_end);
 		
-		slider.setOnChangeListener(new CustomSlider.ChangeListener() {
+		slider.setOnChangeListener(new RangeSlider.ChangeListener() {
 
 			@Override
 			public void onUpdate(float start, float end) {

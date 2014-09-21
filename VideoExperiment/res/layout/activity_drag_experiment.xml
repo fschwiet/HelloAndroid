@@ -4,15 +4,13 @@
     android:layout_height="match_parent"
     tools:context="${relativePackage}.${activityClass}" >
     
-    <com.example.videoexperiment.CustomSlider
+    <com.example.videoexperiment.RangeSlider
         android:id="@+id/slider_experiment"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:layout_centerHorizontal="true" 
-		android:layout_alignParentTop="true">
+		android:layout_alignParentTop="true" />
         
-    </com.example.videoexperiment.CustomSlider>
-
     <TextView
         android:id="@+id/text_start"
         android:layout_width="wrap_content"
