@@ -18,11 +18,11 @@ public class CustomSlider extends RelativeLayout {
 	public float maximum;
 	
 	public float getStart() {
-		return getValue(draggableStart);
+		return getValue(draggableStart, minimum);
 	}
 	
 	public float getEnd() {
-		return getValue(draggableEnd);
+		return getValue(draggableEnd, maximum);
 	}
 	
 	public interface ChangeListener {
@@ -53,7 +53,13 @@ public class CustomSlider extends RelativeLayout {
 		init();
 	}	
 	
-	private float getValue(View draggable) {
+	private float getValue(View draggable, float initialValue) {
+		
+		// before the UI is rendered, we use the initial value.
+		if (this.getWidth() == 0) {
+			return initialValue;
+		}
+		
 		float position = draggable.getX();
 		
 		Log.d("position", String.format("position: %f, width: %d, width2: %d", position, this.getWidth(), draggable.getWidth()));
