@@ -35,28 +35,21 @@ public class DragExperimentActivity extends Activity {
 		slider.setOnChangeListener(new RangeSlider.ChangeListener() {
 
 			@Override
-			public void onUpdate(float start, float end) {
-				DragExperimentActivity.this.setText(start, end);
-			}
-
-			@Override
-			public void onStartReleased() {
+			public void onStartChanged(float start) {
+				textStart.setText(String.format("%f", start));
 				textStart.setAlpha(1);
 				textEnd.setAlpha((float) 0.5);
 			}
 
 			@Override
-			public void onEndReleased() {
+			public void onEndChanged(float end) {
+				textEnd.setText(String.format("%f", end));
 				textStart.setAlpha((float)0.5);
 				textEnd.setAlpha(1);
 			}
 		});
 		
-		setText(slider.getStart(), slider.getEnd());
-	}
-	
-	private void setText(float start, float end) {
-		textStart.setText(String.format("%f", start));
-		textEnd.setText(String.format("%f", end));
+		textStart.setText(String.format("%f", slider.getStart()));
+		textEnd.setText(String.format("%f", slider.getEnd()));
 	}
 }

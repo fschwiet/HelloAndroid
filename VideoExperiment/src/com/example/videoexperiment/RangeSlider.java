@@ -26,9 +26,8 @@ public class RangeSlider extends RelativeLayout {
 	}
 	
 	public interface ChangeListener {
-		void onUpdate(float start, float end);
-		void onStartReleased();
-		void onEndReleased();
+		void onStartChanged(float start);
+		void onEndChanged(float end);
 	}
 	
 	public void setOnChangeListener(ChangeListener listener) {
@@ -84,9 +83,9 @@ public class RangeSlider extends RelativeLayout {
 			}
 
 			@Override
-			public void onReleased() {
+			public void onChange() {
 				for(ChangeListener listener : changeListeners) {
-					listener.onStartReleased();
+					listener.onStartChanged(RangeSlider.this.getStart());
 				}
 			}
 		}));
@@ -105,9 +104,9 @@ public class RangeSlider extends RelativeLayout {
 			}
 
 			@Override
-			public void onReleased() {
+			public void onChange() {
 				for(ChangeListener listener : changeListeners) {
-					listener.onEndReleased();
+					listener.onEndChanged(RangeSlider.this.getEnd());
 				}
 			}
 		}));
@@ -116,7 +115,7 @@ public class RangeSlider extends RelativeLayout {
 	public interface DynamicRange {
 		public float getStart();
 		public float getEnd();
-		public void onReleased();
+		public void onChange();
 	}
 	
 	public class DragExperimentTouchListener implements View.OnTouchListener {
@@ -155,7 +154,6 @@ public class RangeSlider extends RelativeLayout {
 					lastY = arg0.getY();
 					
 					applyPosition(arg0, arg1);
-					range.onReleased();
 					
 					return true;
 				} else if (action == MotionEvent.ACTION_CANCEL) {
@@ -183,10 +181,8 @@ public class RangeSlider extends RelativeLayout {
 			arg0.setX(resultingX);
 			arg0.setY(arg0.getY());	
 			
-			if (resultingX != originalX) {
-				for(ChangeListener listener : changeListeners) {
-					listener.onUpdate(getStart(), getEnd());
-				}
+			if (originalX != resultingX) {
+				range.onChange();
 			}
 		}
 	}

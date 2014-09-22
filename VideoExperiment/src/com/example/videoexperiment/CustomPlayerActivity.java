@@ -128,15 +128,8 @@ public class CustomPlayerActivity extends Activity implements SurfaceHolder.Call
 		slider.maximum = player.getDuration();
 		slider.setOnChangeListener(new RangeSlider.ChangeListener() {
 			
-			float start;
-			
 			@Override
-			public void onUpdate(float start, float end) {
-				this.start = start;
-			}
-			
-			@Override
-			public void onStartReleased() {
+			public void onStartChanged(float start) {
 				if (player.isPlaying()) {
 					player.pause();	
 				}
@@ -146,11 +139,11 @@ public class CustomPlayerActivity extends Activity implements SurfaceHolder.Call
 			}
 			
 			@Override
-			public void onEndReleased() {
+			public void onEndChanged(float stop) {
 				if (player.isPlaying()) {
 					player.pause();	
 				}
-				player.seekTo((int)start);
+				player.seekTo((int)stop);
 				currentSpeed = 0;
 			}
 		});
