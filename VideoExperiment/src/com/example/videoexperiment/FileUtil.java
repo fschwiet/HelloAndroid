@@ -41,8 +41,6 @@ public class FileUtil {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         File mediaFile = new File(mediaStorageDir.getPath() + File.separator + "VID_"+ timeStamp + ".mp4");
         
-        Log.d("FileUtil", "writing to " + mediaFile);
-
         return Uri.fromFile(mediaFile);
     }
 	

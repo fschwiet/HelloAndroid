@@ -64,8 +64,6 @@ public class RangeSlider extends RelativeLayout {
 		
 		float position = draggable.getX();
 		
-		Log.d("position", String.format("position: %f, width: %d, width2: %d", position, this.getWidth(), draggable.getWidth()));
-		
 		return (position / (this.getWidth() - draggable.getWidth())) * (maximum - minimum) + minimum;	
 	}
 	
