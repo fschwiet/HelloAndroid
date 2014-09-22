@@ -69,7 +69,7 @@ public class MP4Util {
 	}
 	
 
-    public static void TrimMP4(String inputFile, double startTime, double stopTime, String outputFile) throws IOException {
+    public static void TrimMP4(String inputFile, double secondStart, double secondEnd, String outputFile) throws IOException {
         
     	Movie movie = MovieCreator.build(inputFile);
 
@@ -77,8 +77,8 @@ public class MP4Util {
         movie.setTracks(new LinkedList<Track>());
         // remove all tracks we will create new tracks from the old
 
-        double correctedStartTime = startTime;
-        double correctedEngTime = stopTime;
+        double correctedStartTime = secondStart;
+        double correctedEngTime = secondEnd;
 
         boolean timeCorrected = false;
 

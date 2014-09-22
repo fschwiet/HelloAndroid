@@ -55,14 +55,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=">"
-            android:background="#DDe5e5e5" />
+            android:background="#DDe5ffe5" />
 
         <Button
             android:id="@+id/button_playFast"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
             android:text=">>"
             android:background="#DDe5e5e5" />
+        
+        <Button
+            android:id="@+id/button_saveVideo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save"
+            android:background="#DDe5e5e5"/>
         
     </LinearLayout>
 
