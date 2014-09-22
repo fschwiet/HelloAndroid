@@ -38,6 +38,18 @@ public class DragExperimentActivity extends Activity {
 			public void onUpdate(float start, float end) {
 				DragExperimentActivity.this.setText(start, end);
 			}
+
+			@Override
+			public void onStartReleased() {
+				textStart.setAlpha(1);
+				textEnd.setAlpha((float) 0.5);
+			}
+
+			@Override
+			public void onEndReleased() {
+				textStart.setAlpha((float)0.5);
+				textEnd.setAlpha(1);
+			}
 		});
 		
 		setText(slider.getStart(), slider.getEnd());
