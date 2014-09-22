@@ -13,6 +13,14 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"/>
+    
+    <com.example.videoexperiment.RangeSlider
+        android:id="@+id/player_rangeSlider"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/player_scroller" >
+    </com.example.videoexperiment.RangeSlider>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -56,5 +64,6 @@
             android:text=">>"
             android:background="#DDe5e5e5" />
         
-    </LinearLayout>   
+    </LinearLayout>
+
 </RelativeLayout>

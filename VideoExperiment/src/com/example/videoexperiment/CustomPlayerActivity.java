@@ -123,6 +123,38 @@ public class CustomPlayerActivity extends Activity implements SurfaceHolder.Call
 			}
 		});
 		
+		RangeSlider slider = (RangeSlider)findViewById(R.id.player_rangeSlider);
+		slider.minimum = 0;
+		slider.maximum = player.getDuration();
+		slider.setOnChangeListener(new RangeSlider.ChangeListener() {
+			
+			float start;
+			
+			@Override
+			public void onUpdate(float start, float end) {
+				this.start = start;
+			}
+			
+			@Override
+			public void onStartReleased() {
+				if (player.isPlaying()) {
+					player.pause();	
+				}
+				player.seekTo((int)start);
+				currentSpeed = 0;
+				player.start();
+			}
+			
+			@Override
+			public void onEndReleased() {
+				if (player.isPlaying()) {
+					player.pause();	
+				}
+				player.seekTo((int)start);
+				currentSpeed = 0;
+			}
+		});
+				
 		playbackTimer = new Timer();
 		playbackTimer.schedule(new TimerTask() {
 
@@ -162,7 +194,6 @@ public class CustomPlayerActivity extends Activity implements SurfaceHolder.Call
 					
 				});
 			}}, 1000 /fps, 1000 / fps);
-		//player.start();
 	}
 
 	private void AttachPlaybackSpeedButton(int resourceId, final int speed) {
