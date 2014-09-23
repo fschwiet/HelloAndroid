@@ -4,12 +4,8 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 public class RangeSlider extends RelativeLayout {
@@ -35,8 +31,8 @@ public class RangeSlider extends RelativeLayout {
 	}
 	
 	ArrayList<ChangeListener> changeListeners = new ArrayList<ChangeListener>();
-	View draggableStart;
-	View draggableEnd;
+	RangeSliderWidget draggableStart;
+	RangeSliderWidget draggableEnd;
 	
 	
 	public RangeSlider(Context context) {
@@ -63,13 +59,13 @@ public class RangeSlider extends RelativeLayout {
 		
 		float position = draggable.getX();
 		
-		return (position / (this.getWidth() - draggable.getWidth())) * (maximum - minimum) + minimum;	
+		return (position / (this.getWidth() - getDraggableWidth())) * (maximum - minimum) + minimum;	
 	}
 	
 	private void init() {
 		inflate(getContext(), R.layout.control_range_slider, this);
 		
-		draggableStart = (View)findViewById(R.id.rangeSlider_draggable_start);
+		draggableStart = (RangeSliderWidget)findViewById(R.id.rangeSlider_draggable_start);
 		draggableStart.setOnTouchListener(new DragExperimentTouchListener(draggableStart.getX(), draggableStart.getY(), new DynamicRange() {
 
 			@Override
@@ -90,7 +86,8 @@ public class RangeSlider extends RelativeLayout {
 			}
 		}));
 		
-		draggableEnd = (View)findViewById(R.id.rangeSlider_draggable_end);
+		draggableEnd = (RangeSliderWidget)findViewById(R.id.rangeSlider_draggable_end);
+		draggableEnd.setPointingLeft();
 		draggableEnd.setOnTouchListener(new DragExperimentTouchListener(draggableEnd.getX(), draggableEnd.getY(), new DynamicRange() {
 
 			@Override
@@ -100,7 +97,7 @@ public class RangeSlider extends RelativeLayout {
 
 			@Override
 			public float getEnd() {
-				return RangeSlider.this.getWidth() - draggableEnd.getWidth();
+				return RangeSlider.this.getWidth() - getDraggableWidth();
 			}
 
 			@Override
@@ -110,6 +107,10 @@ public class RangeSlider extends RelativeLayout {
 				}
 			}
 		}));
+	}
+	
+	private float getDraggableWidth() {
+		return draggableEnd.getWidth();
 	}
 	
 	public interface DynamicRange {
@@ -184,6 +185,6 @@ public class RangeSlider extends RelativeLayout {
 			if (originalX != resultingX) {
 				range.onChange();
 			}
-		}
+		}	
 	}
 }
