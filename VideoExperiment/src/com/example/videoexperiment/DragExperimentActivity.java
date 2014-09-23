@@ -1,5 +1,6 @@
 package com.example.videoexperiment;
 
+import junit.framework.Assert;
 import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipDescription;
@@ -24,7 +25,7 @@ public class DragExperimentActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_drag_experiment);
 		
-		RangeSlider slider = (RangeSlider)findViewById(R.id.slider_experiment);
+		final RangeSlider slider = (RangeSlider)findViewById(R.id.slider_experiment);
 		
 		slider.minimum = -100;
 		slider.maximum = 100;
@@ -36,6 +37,7 @@ public class DragExperimentActivity extends Activity {
 
 			@Override
 			public void onStartChanged(float start) {
+				Assert.assertEquals(start, slider.getStart());
 				textStart.setText(String.format("%f", start));
 				textStart.setAlpha(1);
 				textEnd.setAlpha((float) 0.5);
@@ -43,6 +45,7 @@ public class DragExperimentActivity extends Activity {
 
 			@Override
 			public void onEndChanged(float end) {
+				Assert.assertEquals(end, slider.getEnd());
 				textEnd.setText(String.format("%f", end));
 				textStart.setAlpha((float)0.5);
 				textEnd.setAlpha(1);
