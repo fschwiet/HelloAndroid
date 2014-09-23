@@ -147,20 +147,37 @@ public class CustomPlayerActivity extends Activity implements SurfaceHolder.Call
 			}
 		});
 		
-		Button saveButton = (Button)findViewById(R.id.button_saveVideo);
+		final Button saveButton = (Button)findViewById(R.id.button_saveVideo);
 		saveButton.setOnClickListener(new Button.OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
-				float start = slider.getStart() / 1000;
-				float end = slider.getEnd() / 1000;
+				final float start = slider.getStart() / 1000;
+				final float end = slider.getEnd() / 1000;
+				saveButton.setEnabled(false);
 				
-				String outputFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "saved.mp4").toString();
-				try {
-					MP4Util.TrimMP4(FileUtil.getMergedOutputFile().toString(), (double)start, (double)end, outputFile);
-				} catch (IOException e) {
-					throw new RuntimeException(e);
-				}
+				new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+						String outputFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "saved.mp4").toString();
+						try {
+							MP4Util.TrimMP4(FileUtil.getMergedOutputFile().toString(), (double)start, (double)end, outputFile);
+						} catch (IOException e) {
+							throw new RuntimeException(e);
+						}
+						finally {
+							CustomPlayerActivity.this.runOnUiThread(new Runnable() {
+
+								@Override
+								public void run() {
+									saveButton.setEnabled(true);
+								}
+								
+							});
+						}
+					}
+				}).start();
 			}
 		});
 				
