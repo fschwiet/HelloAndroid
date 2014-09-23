@@ -14,11 +14,11 @@ public class RangeSlider extends RelativeLayout {
 	public float maximum;
 	
 	public float getStart() {
-		return getValue(draggableStart, minimum);
+		return getValue(draggableStart, minimum, false);
 	}
 	
 	public float getEnd() {
-		return getValue(draggableEnd, maximum);
+		return getValue(draggableEnd, maximum, true);
 	}
 	
 	public interface ChangeListener {
@@ -50,16 +50,30 @@ public class RangeSlider extends RelativeLayout {
 		init();
 	}	
 	
-	private float getValue(View draggable, float initialValue) {
+	private float getViewSliderPosition(View draggable, boolean useLeftEdge) {
+
+		//  actual position 0 starts at x==getDrawableWidth();
+		
+		float draggableWidth = getDraggableWidth();
+
+		float position = draggable.getX();
+		
+		if (useLeftEdge)
+			position -= draggableWidth;	
+		
+		return position;
+	}
+	
+	private float getValue(View draggable, float initialValue, boolean useLeftEdge) {
+		
+		float draggableWidth = getDraggableWidth();
 		
 		// before the UI is rendered, we use the initial value.
 		if (this.getWidth() == 0) {
 			return initialValue;
 		}
 		
-		float position = draggable.getX();
-		
-		return (position / (this.getWidth() - getDraggableWidth())) * (maximum - minimum) + minimum;	
+		return (getViewSliderPosition(draggable, useLeftEdge) / (this.getWidth() - draggableWidth * 2)) * (maximum - minimum) + minimum;	
 	}
 	
 	private void init() {
@@ -75,7 +89,7 @@ public class RangeSlider extends RelativeLayout {
 
 			@Override
 			public float getEnd() {
-				return draggableEnd.getX();
+				return draggableEnd.getX() - getDraggableWidth();
 			}
 
 			@Override
@@ -92,7 +106,7 @@ public class RangeSlider extends RelativeLayout {
 
 			@Override
 			public float getStart() {
-				return draggableStart.getX();
+				return draggableStart.getX() + getDraggableWidth();
 			}
 
 			@Override
