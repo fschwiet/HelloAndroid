@@ -135,7 +135,6 @@ public class CustomPlayerActivity extends Activity implements SurfaceHolder.Call
 				}
 				player.seekTo((int)start);
 				currentSpeed = 0;
-				player.start();
 			}
 			
 			@Override
