@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 
 public class RecordJamActivity extends Activity {
@@ -24,6 +25,8 @@ public class RecordJamActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		
 		super.onCreate(savedInstanceState);
+		
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);		
 		
 		if (savedInstanceState == null) {
 			String[] allClips = FileUtil.getOutputVideoFiles();
