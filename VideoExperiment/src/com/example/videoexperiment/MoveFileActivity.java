@@ -1,8 +1,11 @@
 package com.example.videoexperiment;
 
 import java.io.File;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnPreparedListener;
 import android.os.Bundle;
@@ -66,13 +69,43 @@ public class MoveFileActivity extends Activity {
 					@Override
 					public void run() {
 						
-						originalLocation.renameTo(new File(targetDirectory, filenameText.getText().toString() + ".mp4"));
+						String filename = filenameText.getText().toString();
+						
+						originalLocation.renameTo(new File(targetDirectory, filename + ".mp4"));
+						
+						SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+						SharedPreferences.Editor editor = preferences.edit();
+						editor.putString("lastFilename", filename);
+						editor.commit();
 						
 						MoveFileActivity.this.finish();
 					}
 				}).start();
 			}
 		});
+		
+		SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+		String lastFilename = preferences.getString("lastFilename", "");
+		if (lastFilename.length() > 0) {
+			int lastIndex = 1;
+			
+			Pattern regex = Pattern.compile("\\s#(\\d+)$");
+			Matcher matcher = regex.matcher(lastFilename);
+			
+			if (matcher.find()) {
+				lastIndex = Integer.parseInt(matcher.group(1));
+				lastFilename = lastFilename.substring(0, matcher.start());
+			}
+			
+			String possibleFilename;
+			File possibleFile;
+			do{
+				possibleFilename = lastFilename + " #" + ++lastIndex;
+				possibleFile = new File(targetDirectory, possibleFilename + ".mp4");	
+			} while(possibleFile.exists());
+			
+			filenameText.setText(possibleFilename);
+		}
 		
 		TextView targetDirectoryName = (TextView)findViewById(R.id.moveFile_targetDirectoryName);
 		targetDirectoryName.setText(targetDirectory.getName());
