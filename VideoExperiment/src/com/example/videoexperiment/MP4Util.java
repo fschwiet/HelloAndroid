@@ -78,7 +78,7 @@ public class MP4Util {
         // remove all tracks we will create new tracks from the old
 
         double correctedStartTime = secondStart;
-        double correctedEngTime = secondEnd;
+        double correctedEndTime = secondEnd;
 
         boolean timeCorrected = false;
 
@@ -95,15 +95,15 @@ public class MP4Util {
                     throw new RuntimeException("The startTime has already been corrected by another track with SyncSample. Not Supported.");
                 }
                 correctedStartTime = correctTimeToSyncSample(track, correctedStartTime, false);
-                correctedEngTime = correctTimeToSyncSample(track, correctedEngTime, true);
+                correctedEndTime = correctTimeToSyncSample(track, correctedEndTime, true);
                 timeCorrected = true;
             }
         }
-
+        
         for (Track track : tracks) {
             long currentSample = 0;
             double currentTime = 0;
-            double lastTime = 0;
+            double lastTime = -0.01;
             long startSample = -1;
             long endSample = -1;
 
@@ -115,7 +115,7 @@ public class MP4Util {
                     // current sample is still before the new starttime
                     startSample = currentSample;
                 }
-                if (currentTime > lastTime && currentTime <= correctedEngTime) {
+                if (currentTime > lastTime && currentTime <= correctedEndTime) {
                     // current sample is after the new start time and still before the new endtime
                     endSample = currentSample;
                 }
@@ -124,6 +124,7 @@ public class MP4Util {
                 currentTime += (double) delta / (double) track.getTrackMetaData().getTimescale();
                 currentSample++;
             }
+            
             movie.addTrack(new AppendTrack(new CroppedTrack(track, startSample, endSample)));
         }
         long start1 = System.currentTimeMillis();
@@ -168,6 +169,7 @@ public class MP4Util {
             }
             previous = timeOfSyncSample;
         }
+        
         return timeOfSyncSamples[timeOfSyncSamples.length - 1];
     }
 }
