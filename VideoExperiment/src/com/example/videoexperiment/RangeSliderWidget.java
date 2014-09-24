@@ -58,8 +58,6 @@ public class RangeSliderWidget extends View {
 	
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-		Log.d("onMeasure", "");
-		
 		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 		
 		this.setMeasuredDimension(80, 80);
@@ -67,8 +65,6 @@ public class RangeSliderWidget extends View {
 	
 	@Override
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-		
-		Log.d("onSizeChanged", String.format("%d x %d", w, h));
 		
 		super.onSizeChanged(w, h, oldw, oldh);
 		
