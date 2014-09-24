@@ -7,5 +7,6 @@
     <string name="title_activity_record_jam">Record</string>
     <string name="title_activity_custom_player">Review</string>
     <string name="title_activity_drag_experiment">DragExperimentActivity</string>
+    <string name="title_activity_move_file">MoveFileActivity</string>
 
 </resources>

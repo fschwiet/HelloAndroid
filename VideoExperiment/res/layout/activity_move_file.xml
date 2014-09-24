@@ -1,0 +1,63 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="${relativePackage}.${activityClass}" >
+    
+    <VideoView
+        android:id="@+id/moveFile_videoView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    
+    
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+	        <TextView
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="File will be saved to your " />
+	
+	        <TextView
+	            android:id="@+id/moveFile_targetDirectoryName"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="" />
+	        
+	        <TextView
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text=" directory." />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Filename" />
+
+        <EditText
+            android:id="@+id/moveFile_filename"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.50"
+            android:singleLine="true" />
+        
+        <Button
+            android:id="@+id/moveFile_saveButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:text="Save" />
+    </LinearLayout>
+
+</LinearLayout>

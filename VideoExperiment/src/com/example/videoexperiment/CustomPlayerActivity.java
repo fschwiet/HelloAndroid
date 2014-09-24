@@ -6,6 +6,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnErrorListener;
@@ -160,7 +161,7 @@ public class CustomPlayerActivity extends Activity implements SurfaceHolder.Call
 
 					@Override
 					public void run() {
-						String outputFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "saved.mp4").toString();
+						final String outputFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "saved.mp4").toString();
 						try {
 							MP4Util.TrimMP4(FileUtil.getMergedOutputFile().toString(), (double)start, (double)end, outputFile);
 						} catch (IOException e) {
@@ -172,8 +173,12 @@ public class CustomPlayerActivity extends Activity implements SurfaceHolder.Call
 								@Override
 								public void run() {
 									saveButton.setEnabled(true);
+									
+									Intent moveFile = new Intent(CustomPlayerActivity.this, MoveFileActivity.class);
+									moveFile.putExtra("originalLocation", new File(outputFile));
+									moveFile.putExtra("targetDirectory", Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES));
+									startActivity(moveFile);
 								}
-								
 							});
 						}
 					}
