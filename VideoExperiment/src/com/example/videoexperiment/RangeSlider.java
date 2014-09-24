@@ -14,11 +14,11 @@ public class RangeSlider extends RelativeLayout {
 	public float maximum;
 	
 	public float getStart() {
-		return getValue(draggableStart, minimum, false);
+		return getValue(draggableStart, minimum);
 	}
 	
 	public float getEnd() {
-		return getValue(draggableEnd, maximum, true);
+		return getValue(draggableEnd, maximum);
 	}
 	
 	public interface ChangeListener {
@@ -50,30 +50,16 @@ public class RangeSlider extends RelativeLayout {
 		init();
 	}	
 	
-	private float getViewSliderPosition(View draggable, boolean useLeftEdge) {
-
-		//  actual position 0 starts at x==getDrawableWidth();
+	private float getValue(View draggable, float initialValue) {
 		
-		float draggableWidth = getDraggableWidth();
-
-		float position = draggable.getX();
-		
-		if (useLeftEdge)
-			position -= draggableWidth;	
-		
-		return position;
-	}
-	
-	private float getValue(View draggable, float initialValue, boolean useLeftEdge) {
-		
-		float draggableWidth = getDraggableWidth();
+		float draggableWidth = draggable.getWidth();
 		
 		// before the UI is rendered, we use the initial value.
 		if (this.getWidth() == 0) {
 			return initialValue;
 		}
 		
-		return (getViewSliderPosition(draggable, useLeftEdge) / (this.getWidth() - draggableWidth * 2)) * (maximum - minimum) + minimum;	
+		return (draggable.getX() / (this.getWidth() - draggableWidth)) * (maximum - minimum) + minimum;	
 	}
 	
 	private void init() {
@@ -89,7 +75,7 @@ public class RangeSlider extends RelativeLayout {
 
 			@Override
 			public float getEnd() {
-				return draggableEnd.getX() - getDraggableWidth();
+				return draggableEnd.getX();
 			}
 
 			@Override
@@ -106,7 +92,7 @@ public class RangeSlider extends RelativeLayout {
 
 			@Override
 			public float getStart() {
-				return draggableStart.getX() + getDraggableWidth();
+				return draggableStart.getX();
 			}
 
 			@Override
@@ -153,9 +139,12 @@ public class RangeSlider extends RelativeLayout {
 			int action = arg1.getAction();
 			
 			if (action == MotionEvent.ACTION_DOWN && !isDragging) {
-				isDragging = true; 
-				deltaX = arg1.getX();
-				return true;
+				
+				if (((RangeSliderWidget)arg0).isClickable(arg1.getX(), arg1.getY())) {
+					isDragging = true; 
+					deltaX = arg1.getX();
+					return true;
+				}
 			} else if (isDragging) {
 				if (action == MotionEvent.ACTION_MOVE) {
 					

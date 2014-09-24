@@ -10,8 +10,10 @@ import android.view.View;
 
 public class RangeSliderWidget extends View {
 	
-	Paint filler;
+	Paint clickableFiller;
+	Paint outerFiller;
 	Path triangle;
+	Path outerBoundary;
 	boolean pointLeft = false;
 
 	public RangeSliderWidget(Context context) {
@@ -33,11 +35,25 @@ public class RangeSliderWidget extends View {
 		pointLeft = true;
 	}
 	
+	public boolean isClickable(float f, float g) {
+		if (pointLeft) {
+			return f + g >= this.getWidth();
+		} else {
+			return f + g <= this.getWidth();
+		}
+	}
+	
 	private void init() {
-		filler = new Paint(Paint.ANTI_ALIAS_FLAG);
-		filler.setStyle(Paint.Style.FILL_AND_STROKE);
-		filler.setColor(0xe500e5);
-		filler.setAlpha(255);
+		clickableFiller = new Paint(Paint.ANTI_ALIAS_FLAG);
+		clickableFiller.setStyle(Paint.Style.FILL_AND_STROKE);
+		clickableFiller.setColor(0xe500e5);
+		clickableFiller.setAlpha(255);
+		
+		outerFiller = new Paint(Paint.ANTI_ALIAS_FLAG);
+		outerFiller.setStyle(Paint.Style.FILL_AND_STROKE);
+		outerFiller.setColor(0x008080);
+		outerFiller.setAlpha(40);
+		
 	}
 	
 	@Override
@@ -46,7 +62,7 @@ public class RangeSliderWidget extends View {
 		
 		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 		
-		this.setMeasuredDimension(40, 80);
+		this.setMeasuredDimension(80, 80);
 	}
 	
 	@Override
@@ -59,17 +75,31 @@ public class RangeSliderWidget extends View {
 		if (pointLeft) {
 			triangle = new Path();
 			triangle.moveTo(w, 0);
-			triangle.lineTo(0, h / 2);
+			triangle.lineTo(w/2, h / 2);
 			triangle.lineTo(w, h);
 			triangle.lineTo(w, 0);
 			triangle.close();	
+			
+			outerBoundary = new Path();
+			outerBoundary.moveTo(0,h);
+			outerBoundary.lineTo(w/2, h/2);
+			outerBoundary.lineTo(w,h);
+			outerBoundary.lineTo(0,h);
+			outerBoundary.close();
 		} else {
 			triangle = new Path();
 			triangle.moveTo(0, 0);
-			triangle.lineTo(w, h / 2);
+			triangle.lineTo(w/2, h / 2);
 			triangle.lineTo(0, h);
 			triangle.lineTo(0, 0);
-			triangle.close();		
+			triangle.close();
+
+			outerBoundary = new Path();
+			outerBoundary.moveTo(0,0);
+			outerBoundary.lineTo(w/2, h/2);
+			outerBoundary.lineTo(w,0);
+			outerBoundary.lineTo(0,0);
+			outerBoundary.close();
 		}
 	}
 	
@@ -77,6 +107,7 @@ public class RangeSliderWidget extends View {
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
 		
-		canvas.drawPath(triangle, filler);
+		canvas.drawPath(triangle, clickableFiller);
+		canvas.drawPath(outerBoundary, outerFiller);
 	}
 }
