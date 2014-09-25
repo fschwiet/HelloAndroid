@@ -8,6 +8,8 @@ import java.util.TimerTask;
 import android.content.Context;
 import android.hardware.Camera;
 import android.media.CamcorderProfile;
+import android.util.AttributeSet;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -20,16 +22,29 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     private int secondsPerClip = 60;
     private int numberOfPastClipsKept = 3;
     
-    @SuppressWarnings("deprecation")
 	public CameraPreview(Context context) {
-        super(context);
-       
+		super(context);
+		init();
+	}
+	
+	public CameraPreview(Context context, AttributeSet attrs) {
+		super(context, attrs);
+		init();
+	}
+	
+	public CameraPreview(Context context, AttributeSet attrs, int defStyleAttr) {
+		super(context, attrs, defStyleAttr);
+		init();
+	}
+    
+    @SuppressWarnings("deprecation")
+	private void init() {
         // Install a SurfaceHolder.Callback so we get notified when the
         // underlying surface is created and destroyed.
         mHolder = getHolder();
         mHolder.addCallback(this);
         // deprecated setting, but required on Android versions prior to 3.0
-        mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+        mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);    	
     }
     
     public void SetCameraId(int cameraId) {
@@ -67,8 +82,6 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         mCamera.setParameters(parameters);
         
         StartCamera();
-             
-        //StartRecorder();  // This recording never works, need to wait until surfaceChanged
     }
 
     public void surfaceDestroyed(SurfaceHolder holder) {
@@ -131,13 +144,41 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         
         StopRecorder();
         mCamera.stopPreview();
-
+        
         // set preview size and make any resize, rotate or
         // reformatting changes here
 
         StartCamera();
         StartRecorder();
     }
+
+	@Override
+	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+		
+		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+		
+		CamcorderProfile profile = this.GetProfile();
+		
+		int availableWidth = MeasureSpec.getSize(widthMeasureSpec);
+		int availableHeight = MeasureSpec.getSize(heightMeasureSpec);
+		
+		float cameraAspectRatio = (float)profile.videoFrameWidth / (float)profile.videoFrameHeight;
+		float availableAspectRatio = (float)availableWidth / (float)availableHeight;
+		int desiredWidth;
+		int desiredHeight;
+		
+		if (availableAspectRatio > cameraAspectRatio) {
+			desiredWidth = (int)(availableHeight * cameraAspectRatio);
+			desiredHeight = availableHeight;		
+		} else {
+			desiredWidth = availableWidth;
+			desiredHeight = (int)(availableWidth / cameraAspectRatio);
+		}
+		
+		Log.d("CameraPreview", String.format("measure spec: %d x %d, desired: %d x %d", availableWidth, availableHeight, desiredWidth,desiredHeight));
+		
+		super.setMeasuredDimension((int)desiredWidth,(int)desiredHeight);
+	}
 
 	public void ClipRecording() {
 		StopRecorder();
