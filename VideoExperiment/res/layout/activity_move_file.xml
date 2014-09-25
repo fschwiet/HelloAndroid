@@ -4,18 +4,24 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="${relativePackage}.${activityClass}" >
-    
-    <VideoView
-        android:id="@+id/moveFile_videoView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-    
-    
-
+   
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:layout_weight="1">
+        
+	    <VideoView
+	        android:id="@+id/moveFile_videoView"
+	        android:layout_width="wrap_content"
+	        android:layout_height="fill_parent"/>
+    </LinearLayout>
+ 
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" 
+        android:layout_weight="0">
 
 	        <TextView
 	            android:layout_width="wrap_content"
