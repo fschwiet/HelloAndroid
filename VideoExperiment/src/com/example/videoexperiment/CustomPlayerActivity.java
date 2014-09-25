@@ -83,7 +83,7 @@ public class CustomPlayerActivity extends Activity implements SurfaceHolder.Call
 		}
 		
 		player.seekTo(player.getDuration());
-		currentSpeed = -2;
+		CustomPlayerActivity.this.setSpeed(-2);
 		
 		final SeekBar scroller = (SeekBar)findViewById(R.id.player_scroller);
 		scroller.setMax(player.getDuration());
@@ -119,8 +119,7 @@ public class CustomPlayerActivity extends Activity implements SurfaceHolder.Call
 
 			@Override
 			public void onClick(View v) {
-				currentSpeed = 0;
-				player.start();
+				CustomPlayerActivity.this.setSpeed(1);
 			}
 		});
 		
@@ -131,20 +130,14 @@ public class CustomPlayerActivity extends Activity implements SurfaceHolder.Call
 			
 			@Override
 			public void onStartChanged(float start) {
-				if (player.isPlaying()) {
-					player.pause();	
-				}
+				CustomPlayerActivity.this.setSpeed(0);
 				player.seekTo((int)start);
-				currentSpeed = 0;
 			}
 			
 			@Override
 			public void onEndChanged(float stop) {
-				if (player.isPlaying()) {
-					player.pause();	
-				}
+				CustomPlayerActivity.this.setSpeed(0);
 				player.seekTo((int)stop);
-				currentSpeed = 0;
 			}
 		});
 		
@@ -236,10 +229,7 @@ public class CustomPlayerActivity extends Activity implements SurfaceHolder.Call
 			@Override
 			public void onClick(View v) {
 				
-				if (player.isPlaying()) {
-					player.pause();
-				}
-				currentSpeed = speed;
+				CustomPlayerActivity.this.setSpeed(speed);
 			}
 		});
 	}
@@ -256,5 +246,19 @@ public class CustomPlayerActivity extends Activity implements SurfaceHolder.Call
 			player.release();
 			player = null;
 		}	
+	}
+	
+	public void setSpeed(int value) {
+		
+		if (value == 1) {
+			currentSpeed = 0;
+			player.start();
+		} else {
+			if (player.isPlaying()) {
+				player.pause();
+			}
+			
+			currentSpeed = value;			
+		}
 	}
 }
