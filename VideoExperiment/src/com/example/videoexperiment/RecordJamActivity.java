@@ -44,7 +44,8 @@ public class RecordJamActivity extends Activity {
 		
 		ViewGroup mLayout = (ViewGroup)findViewById(R.id.layout_record_jam);
 		
-		recordingView = new CameraPreview(this, CameraChooser.GetFrontFacingCameraGingerbread());
+		recordingView = (CameraPreview)findViewById(R.id.cameraPreview);
+		recordingView.SetCameraId(CameraChooser.GetFrontFacingCameraGingerbread());
 		
 		mLayout.addView(recordingView, 0);
 		

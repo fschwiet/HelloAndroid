@@ -13,7 +13,7 @@ import android.view.SurfaceView;
 
 public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
     private SurfaceHolder mHolder;
-    private int iCameraId;
+    private int iCameraId = -1;
     private Camera mCamera;
     private Recorder mRecorder;
     private Timer clipRecordingTimer;
@@ -21,17 +21,19 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     private int numberOfPastClipsKept = 3;
     
     @SuppressWarnings("deprecation")
-	public CameraPreview(Context context, int cameraId) {
+	public CameraPreview(Context context) {
         super(context);
-        
-        iCameraId = cameraId;
-
+       
         // Install a SurfaceHolder.Callback so we get notified when the
         // underlying surface is created and destroyed.
         mHolder = getHolder();
         mHolder.addCallback(this);
         // deprecated setting, but required on Android versions prior to 3.0
         mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+    }
+    
+    public void SetCameraId(int cameraId) {
+        iCameraId = cameraId;	
     }
     
     private CamcorderProfile GetProfile() {
