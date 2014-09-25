@@ -2,20 +2,17 @@ package com.example.videoexperiment;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnErrorListener;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
@@ -32,6 +29,7 @@ public class CustomPlayerActivity extends Activity implements SurfaceHolder.Call
 	int currentSpeed = 0;
 	Timer playbackTimer;
 	boolean userMovingSlider = false;
+	HashMap<Integer, Button> speedButtons = new HashMap<Integer,Button>();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +81,7 @@ public class CustomPlayerActivity extends Activity implements SurfaceHolder.Call
 		}
 		
 		player.seekTo(player.getDuration());
-		CustomPlayerActivity.this.setSpeed(-2);
+		CustomPlayerActivity.this.setSpeed(-4);
 		
 		final SeekBar scroller = (SeekBar)findViewById(R.id.player_scroller);
 		scroller.setMax(player.getDuration());
@@ -112,16 +110,8 @@ public class CustomPlayerActivity extends Activity implements SurfaceHolder.Call
 		AttachPlaybackSpeedButton(R.id.button_playFastReverse, -4);
 		AttachPlaybackSpeedButton(R.id.button_playReverse, -1);
 		AttachPlaybackSpeedButton(R.id.button_pause, 0);
+		AttachPlaybackSpeedButton(R.id.button_play, 1);
 		AttachPlaybackSpeedButton(R.id.button_playFast, 4);
-		
-		Button playButton = (Button)findViewById(R.id.button_play);
-		playButton.setOnClickListener(new Button.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				CustomPlayerActivity.this.setSpeed(1);
-			}
-		});
 		
 		final RangeSlider slider = (RangeSlider)findViewById(R.id.player_rangeSlider);
 		slider.minimum = 0;
@@ -232,6 +222,8 @@ public class CustomPlayerActivity extends Activity implements SurfaceHolder.Call
 				CustomPlayerActivity.this.setSpeed(speed);
 			}
 		});
+		
+		speedButtons.put(speed, button);
 	}
 
 	@Override
@@ -250,6 +242,10 @@ public class CustomPlayerActivity extends Activity implements SurfaceHolder.Call
 	
 	public void setSpeed(int value) {
 		
+		for(Button button : speedButtons.values()) {
+			button.setEnabled(true);
+		}
+		
 		if (value == 1) {
 			currentSpeed = 0;
 			player.start();
@@ -259,6 +255,11 @@ public class CustomPlayerActivity extends Activity implements SurfaceHolder.Call
 			}
 			
 			currentSpeed = value;			
+		}
+		
+		Button selected = speedButtons.get(value);
+		if (selected != null) {
+			selected.setEnabled(false);
 		}
 	}
 }

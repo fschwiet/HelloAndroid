@@ -33,44 +33,38 @@
             android:id="@+id/button_playFastReverse"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="&lt;&lt;"
-            android:background="#DDe5e5e5" />
+            android:text="&lt;&lt;" />
 
         <Button
             android:id="@+id/button_playReverse"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="&lt;"
-            android:background="#DDe5e5e5" />
+            android:text="&lt;"/>
 
         <Button
             android:id="@+id/button_pause"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="||"
-            android:background="#DDe5e5e5" />
+            android:text="||"/>
 
         <Button
             android:id="@+id/button_play"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=">"
-            android:background="#DDe5ffe5" />
+            android:text=">"/>
 
         <Button
             android:id="@+id/button_playFast"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="15dp"
-            android:text=">>"
-            android:background="#DDe5e5e5" />
+            android:text=">>" />
         
         <Button
             android:id="@+id/button_saveVideo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Save"
-            android:background="#DDe5e5e5"/>
+            android:text="Save" />
         
     </LinearLayout>
 
