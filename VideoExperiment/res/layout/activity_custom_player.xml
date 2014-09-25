@@ -27,30 +27,35 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:orientation="horizontal" >
+        android:orientation="horizontal" 
+        android:alpha="0.60">
 
         <Button
             android:id="@+id/button_playFastReverse"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="#ffffff"
             android:text="&lt;&lt;" />
 
         <Button
             android:id="@+id/button_playReverse"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="#ffffff"
             android:text="&lt;"/>
 
         <Button
             android:id="@+id/button_pause"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="#ffffff"
             android:text="||"/>
 
         <Button
             android:id="@+id/button_play"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="#ffffff"
             android:text=">"/>
 
         <Button
@@ -58,12 +63,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="15dp"
+            android:background="#ffffff"
             android:text=">>" />
         
         <Button
             android:id="@+id/button_saveVideo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="#ffffff"
             android:text="Save" />
         
     </LinearLayout>
