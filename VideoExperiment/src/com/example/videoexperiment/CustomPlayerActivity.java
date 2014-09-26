@@ -18,6 +18,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
@@ -53,6 +54,29 @@ public class CustomPlayerActivity extends Activity implements SurfaceHolder.Call
 		
 	}
 
+	private void sizeSurface(MediaPlayer player) {
+		SurfaceView surface = (SurfaceView)findViewById(R.id.player_surface);
+		
+		float videoAspectRatio = (float)player.getVideoWidth() / (float)player.getVideoHeight();
+		float availableAspectRatio = (float)surface.getWidth() / (float)surface.getHeight();
+		
+		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(surface.getLayoutParams());
+		
+		if (videoAspectRatio > availableAspectRatio) {
+			params.width = surface.getWidth();
+			params.height = (int)(surface.getWidth() / videoAspectRatio);
+						
+		} else {
+			params.height = surface.getHeight();
+			params.width = (int)(surface.getHeight() * videoAspectRatio);		
+		}
+		
+		params.addRule(RelativeLayout.CENTER_HORIZONTAL);
+		params.addRule(RelativeLayout.CENTER_VERTICAL);
+
+		surface.setLayoutParams(params);
+	}
+	
 	@Override
 	public void surfaceCreated(SurfaceHolder arg0) {
 		
@@ -79,6 +103,8 @@ public class CustomPlayerActivity extends Activity implements SurfaceHolder.Call
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
+		
+		sizeSurface(player);
 		
 		player.seekTo(player.getDuration());
 		CustomPlayerActivity.this.setSpeed(-4);
