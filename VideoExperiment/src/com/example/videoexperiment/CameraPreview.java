@@ -94,7 +94,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     }
     
     public void StartRecorder(){
-        
+    	
         if (mRecorder != null) {
             throw new RuntimeException("StartRecorder called while already recording.");
         }
@@ -102,6 +102,8 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         String outputPath = FileUtil.getOutputVideoFileUri(this.getContext()).getPath();
         
         mRecorder = new Recorder(mCamera);
+        
+        // takes 400-800ms
         mRecorder.Start(GetProfile(), outputPath, getHolder().getSurface());
         
         clipRecordingTimer = new Timer();
@@ -121,11 +123,12 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     
     public void StopRecorder() {
         
-        if (clipRecordingTimer != null) {
+    	if (clipRecordingTimer != null) {
             clipRecordingTimer.cancel();
             clipRecordingTimer = null;
         }
-
+    	
+        //  takes 200ms
         if (mRecorder != null) {
         	mRecorder.Stop();
         	mRecorder = null;
@@ -181,6 +184,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 	}
 
 	public void ClipRecording() {
+		
 		StopRecorder();
 		StartRecorder();
     }

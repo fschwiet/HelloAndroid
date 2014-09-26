@@ -35,12 +35,11 @@ public class Recorder {
         */
     	
         mCamera.unlock();
+
         mRecorder.setCamera(mCamera);
         mRecorder.setAudioSource(MediaRecorder.AudioSource.DEFAULT);
         mRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
-        
         mRecorder.setProfile(profile);
-
         mRecorder.setOutputFile(outputPath);
         mRecorder.setPreviewDisplay(surface);
         
@@ -50,7 +49,8 @@ public class Recorder {
             mCamera.lock();
             throw new RuntimeException(e);
         }
-
+    	
+        // 800ms
         mRecorder.start(); 
     }
     
@@ -72,6 +72,7 @@ public class Recorder {
     	 */
     	
     	try {
+    		// 200-300 ms
             mRecorder.stop();
     	}
     	catch(RuntimeException e) {
@@ -79,11 +80,13 @@ public class Recorder {
     		if (outputFile.exists())
     			outputFile.delete();
     	}
-
+    	
         mRecorder.reset();
         mRecorder.release();
+    	
+        // 30 ms
         mCamera.lock();
+    	
         mRecorder = null;
-    }
-    
+    }    
 }
