@@ -93,7 +93,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         mCamera = null;
     }
     
-    private void StartRecorder(){
+    public void StartRecorder(){
         
         if (mRecorder != null) {
             throw new RuntimeException("StartRecorder called while already recording.");

@@ -60,7 +60,7 @@ public class RecordJamActivity extends Activity {
 
 					@Override
 					public void run() {
-						// TODO Auto-generated method stub
+						
 						recordingView.StopRecorder();
 						
 						//  HACK TODO:  sleep a little to ensure output file is closed
@@ -71,19 +71,27 @@ public class RecordJamActivity extends Activity {
 						}
 						
 						String[] files = FileUtil.getOutputVideoFiles();
-						File outputFile = FileUtil.getMergedOutputFile();
-						try {
-			                MP4Util.AppendMP4Files(outputFile.toString(), files);
-		                } catch (IOException e) {
-			                throw new RuntimeException(e);
-		                }
-						finally
-						{
-							TemporarilyDisableButtons();
-						}
 						
-						Intent reviewIntent = new Intent(RecordJamActivity.this, CustomPlayerActivity.class);
-						startActivity(reviewIntent);
+						if (files.length == 0) {
+							// If the user .stops recording too quickly, nothing is recorded and
+							// there is nothing to review.
+							TemporarilyDisableButtons();
+							recordingView.StartRecorder();
+						} else {
+							File outputFile = FileUtil.getMergedOutputFile();
+							try {
+				                MP4Util.AppendMP4Files(outputFile.toString(), files);
+			                } catch (IOException e) {
+				                throw new RuntimeException(e);
+			                }
+							finally
+							{
+								TemporarilyDisableButtons();
+							}
+							
+							Intent reviewIntent = new Intent(RecordJamActivity.this, CustomPlayerActivity.class);
+							startActivity(reviewIntent);							
+						}
 					}
 					
 				}).start();
