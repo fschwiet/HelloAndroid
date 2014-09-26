@@ -117,8 +117,6 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 			}
         	
         }, secondsPerClip * 1000, secondsPerClip * 1000);
-        
-        truncateRecordingHistory();
     }
     
     public void StopRecorder() {
@@ -187,6 +185,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 		
 		StopRecorder();
 		StartRecorder();
+        truncateRecordingHistory();
     }
 	
 	private void truncateRecordingHistory(){
